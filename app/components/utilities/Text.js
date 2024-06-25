@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text as Text1 } from 'react-native';
-import { isLangArabic } from '../../helpers/auth';
-import { responsiveScale } from '../../styles/mixins';
-import { colors, font, fonts, sizes } from '../../styles/theme';
+import React, { Component } from "react";
+import { StyleSheet, Text as Text1 } from "react-native";
+import { isLangArabic } from "../../helpers/auth";
+import { responsiveScale } from "../../styles/mixins";
+import { colors, font, fonts, sizes } from "../../styles/theme";
 
 export default class Text extends Component {
   constructor(props) {
@@ -75,32 +75,16 @@ export default class Text extends Component {
       spacing && { letterSpacing: spacing },
       weight && { fontWeight: weight },
       semibold && {
-        fontFamily: isArabicLang
-          ? font.inter_SemiBold //font.muna
-          : sfdisplay
-          ? font.inter_SemiBold
-          : font.roboto_Bold,
+        fontFamily: font.semibold,
       },
       regular && {
-        fontFamily: isArabicLang
-          ? font.inter_Regular //font.muna
-          : sfdisplay
-          ? font.inter_Regular
-          : font.roboto_Regular,
+        fontFamily: font.regular,
       },
       bold && {
-        fontFamily: isArabicLang
-          ? font.inter_bold //font.muna
-          : sfdisplay
-          ? font.inter_bold
-          : font.roboto_Bold,
+        fontFamily: font.bold,
       },
       medium && {
-        fontFamily: isArabicLang
-          ? font.inter_Medium //font.muna
-          : sfdisplay
-          ? font.inter_Medium
-          : font.roboto_Medium,
+        fontFamily: font.medium,
       },
 
       family && { fontFamily: family },
@@ -118,7 +102,7 @@ export default class Text extends Component {
     ];
 
     return (
-      <Text1 style={[{ textAlign: 'left' }, textStyles]} {...props}>
+      <Text1 style={[{ textAlign: "left" }, textStyles]} {...props}>
         {children}
       </Text1>
     );
@@ -132,20 +116,20 @@ const styles = StyleSheet.create({
   },
   // variations
   regular: {
-    fontFamily: font.roboto_Regular,
+    fontFamily: font.regular,
   },
 
   bold: {
-    fontFamily: font.sf_text_bold,
+    fontFamily: font.bold,
   },
 
   medium: {
-    fontFamily: font.sf_text_medium,
+    fontFamily: font.medium,
   },
 
   // position
-  center: { textAlign: 'center' },
-  right: { textAlign: 'right' },
+  center: { textAlign: "center" },
+  right: { textAlign: "right" },
   // colors
   primary: { color: colors.primary },
   secondary: { color: colors.secondary },
@@ -159,5 +143,5 @@ const styles = StyleSheet.create({
   body: fonts.body,
   caption: fonts.caption,
   small: fonts.small,
-  arabic: { transform: [{ scaleX: -1 }], textAlign: 'right' },
+  arabic: { transform: [{ scaleX: -1 }], textAlign: "right" },
 });

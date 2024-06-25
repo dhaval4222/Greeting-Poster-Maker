@@ -199,26 +199,10 @@ const arabicInputStyle = isArabic => {
 var isIos = Platform.OS === 'ios' ? true : false;
 
 var font = {
-  sf_text_regular: 'SFProText-Regular',
-  sf_text_medium: 'SFProText-Medium',
-  sf_text_bold: 'SFProText-Bold',
-  inter_Regular: 'Inter-Regular',
-  inter_bold: 'Inter-Bold',
-  inter_Medium: 'Inter-Medium',
-  inter_Black: 'Inter-Black',
-  inter_light: 'Inter-Light',
-  inter_SemiBold: 'Inter-SemiBold',
-  roboto: 'Roboto',
-  roboto_Regular: 'Roboto-Regular',
-  roboto_Italic: 'Roboto-Italic',
-  roboto_Thin: 'Roboto-Thin',
-  roboto_ThinItalic: 'Roboto-ThinItalic',
-  roboto_Light: 'Roboto-Light',
-  roboto_Medium: 'Roboto-Medium',
-  roboto_Bold: 'Roboto-Bold',
-  muna: 'Muna',
-  times_new_roman: 'Times New Roman',
-  times_new_roman_bold: 'SFProText-Bold',
+  regular: 'Outfit-Regular',
+  medium: 'Outfit-Medium',
+  bold: 'Outfit-Bold',
+  semibold:'Outfit-SemiBold'
 };
 
 var mediumIcon = deviceWidth * 0.05;
