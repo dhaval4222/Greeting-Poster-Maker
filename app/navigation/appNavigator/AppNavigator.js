@@ -1,9 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import DashBoard from "../../screens/app/dashBoard/DashBoard";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from "../../screens/app/dashBoard/Home";
 import { image } from "../../utils/Images";
 import { color } from "../../config/color";
 import { font, perfectSize } from "../../styles/theme";
@@ -12,6 +10,11 @@ import { responsiveScale } from "../../styles/mixins";
 import Text from "../../components/utilities/Text";
 import Setting from "../../screens/app/setting/Setting";
 import Suggestions from "../../screens/app/suggestions/Suggestions";
+import DashBoard from "../../screens/app/home/Home";
+import Home from "../../screens/app/home/Home";
+import FrameScreen from "../../screens/app/frame/FrameScreen";
+import BusinessFrameScreen from "../../screens/app/frame/BusinessFrameScreen";
+import PersonalFrameScreen from "../../screens/app/frame/PersonalFrameScreen";
 
 const AppStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,7 +41,7 @@ function BottomTab() {
     >
       <Tab.Screen
         name="Home"
-        component={DashBoard}
+        component={Home}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -55,7 +58,7 @@ function BottomTab() {
       />
       <Tab.Screen
         name="Frame"
-        component={Home}
+        component={FrameScreen}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -105,8 +108,13 @@ export default function AppNavigator() {
           options={{ headerTitleAlign: "center" }}
         />
         <AppStack.Screen
-          name="DashBoard"
-          component={DashBoard}
+          name="BusinessFrameScreen"
+          component={BusinessFrameScreen}
+          options={{ headerTitleAlign: "center" }}
+        />
+        <AppStack.Screen
+          name="PersonalFrameScreen"
+          component={PersonalFrameScreen}
           options={{ headerTitleAlign: "center" }}
         />
       </AppStack.Navigator>

@@ -1,9 +1,16 @@
 import React from "react";
-import { StyleSheet, Image, View } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  View,
+  Touchable,
+  TouchableOpacity,
+} from "react-native";
 import Block from "../utilities/Block";
 import Text from "../utilities/Text";
 import { perfectSize } from "../../styles/theme";
 import { responsiveScale } from "../../styles/mixins";
+import { color } from "../../config/color";
 
 const FestivalCard = ({
   festival,
@@ -11,25 +18,32 @@ const FestivalCard = ({
   imageExtraStye,
   festivalNameExtraStye,
   cardDateExtraStyle,
-}) => (
+}: any) => (
   <>
-    <Block style={styles.card}>
+    <TouchableOpacity style={styles.card}>
       <Image
         source={festival.image}
         style={[styles.cardImage, imageExtraStye]}
         resizeMode="stretch"
       />
-      <Block style={[styles.festivalName, nameExtraStye]}>
-        <Text style={[styles.cardText, festivalNameExtraStye]}>
+      <Block flex={false} style={[styles.festivalName, nameExtraStye]}>
+        <Text
+          size={responsiveScale(8)}
+          medium
+          center
+          style={[styles.cardText, festivalNameExtraStye]}
+        >
           {festival.name}
         </Text>
       </Block>
       {festival.date && (
         <View style={[styles.cardDatePosition, cardDateExtraStyle]}>
-          <Text style={[styles.cardDate]}>{festival.date}</Text>
+          <Text size={responsiveScale(6)} medium style={[styles.cardDate]}>
+            {festival.date}
+          </Text>
         </View>
       )}
-    </Block>
+    </TouchableOpacity>
   </>
 );
 
@@ -46,20 +60,16 @@ const styles = StyleSheet.create({
     paddingVertical: perfectSize(5),
   },
   cardText: {
-    fontSize: responsiveScale(10),
-    fontWeight: "500",
-    textAlign: "center",
-    color: "#222222",
+    color: color.DARK_GREY,
   },
   cardDate: {
-    fontSize: responsiveScale(8),
-    color: "#fff",
+    color: color.WHITE,
   },
   cardDatePosition: {
     position: "absolute",
     bottom: perfectSize(35),
     right: perfectSize(8),
-    backgroundColor: "#2885C9",
+    backgroundColor: color.BLUE,
     paddingHorizontal: perfectSize(6),
     paddingVertical: perfectSize(2),
     borderRadius: perfectSize(60),
