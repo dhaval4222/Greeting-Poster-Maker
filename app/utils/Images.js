@@ -12,6 +12,10 @@ import RateIcon from "../assets/appImages/RateIcon.svg";
 import ShareIcon from "../assets/appImages/ShareIcon.svg";
 import PrivacyPolicyIcon from "../assets/appImages/PrivacyPolicyIcon.svg";
 import BackArrowIcon from "../assets/appImages/BackArrowIcon.svg";
+import BusinessIcon from "../assets/appImages/BusinessIcon.svg";
+import NoFrameImg from "../assets/appImages/NoFrameImg.svg";
+import SearchIcon from "../assets/appImages/SearchIcon.svg";
+import CameraIcon from "../assets/appImages/CameraIcon.svg";
 
 export const image = {
   eye: <Eye width={perfectSize(20)} height={perfectSize(20)} />,
@@ -37,4 +41,10 @@ export const image = {
   backArrowIcon: (
     <BackArrowIcon width={perfectSize(20)} height={perfectSize(20)} />
   ),
+  businessIcon: (
+    <BusinessIcon width={perfectSize(92)} height={perfectSize(92)} />
+  ),
+  noFrameImg: <NoFrameImg height={110} width={110} />,
+  searchIcon: <SearchIcon width={15} height={15} />,
+  cameraIcon: <CameraIcon width={35} height={30} />,
 };

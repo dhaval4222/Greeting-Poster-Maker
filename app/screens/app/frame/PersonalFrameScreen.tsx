@@ -1,16 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import CustomHeader from '../../../components/CustomHeader'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import CustomHeader from "../../../components/CustomHeader";
 
 const PersonalFrameScreen = () => {
   return (
     <View>
-        <CustomHeader title={"Create Frame"} />
-      <Text>PersonalFrameScreen</Text>
+      <CustomHeader title={"Create Frame"} isBack={true} />
+      
     </View>
-  )
-}
+  );
+};
 
-export default PersonalFrameScreen
+export default PersonalFrameScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

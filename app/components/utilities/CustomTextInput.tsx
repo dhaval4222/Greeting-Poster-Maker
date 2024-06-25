@@ -17,7 +17,7 @@ export default function CustomTextInput({
   textAlignVertical = "center",
   itemTitle,
   autoCapitalize,
-}) {
+}: any) {
   return (
     <Block flex={false}>
       <Block
@@ -29,7 +29,7 @@ export default function CustomTextInput({
           perfectSize(0),
         ]}
       >
-        <Text style={[styles.itemTitle, { extraTitleStyle }]}>{itemTitle}</Text>
+        <Text style={[styles.itemTitle, extraTitleStyle]}>{itemTitle}</Text>
       </Block>
       <Block flex={false} style={[styles.mainView]}>
         <Block flex={false} row between center middle>

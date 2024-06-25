@@ -5,16 +5,16 @@ import { color } from "../../../config/color";
 import Text from "../../../components/utilities/Text";
 import Block from "../../../components/utilities/Block";
 import CustomHeader from "../../../components/CustomHeader";
-import NoFrameImg from "../../../assets/appImages/NoFrameImg.svg";
 import { perfectSize } from "../../../styles/theme";
+import { image } from "../../../utils/Images";
 
 const FrameScreen = ({ navigation }: any) => {
   const [isBusiness, setIsBusiness] = useState(true);
   const handleCreateFrame = () => {
     if (isBusiness) {
-      navigation.navigate("BusinessFrameScreen"); // Navigate to BusinessFrameScreen
+      navigation.navigate("BusinessFrameScreen");
     } else {
-      navigation.navigate("PersonalFrameScreen"); // Navigate to PersonalFrameScreen
+      navigation.navigate("PersonalFrameScreen");
     }
   };
   return (
@@ -33,9 +33,9 @@ const FrameScreen = ({ navigation }: any) => {
           onPress={() => setIsBusiness(true)}
         >
           <Text
-            size={responsiveScale(14)}
+            body
             medium
-            style={isBusiness ? styles.activeText : styles.inactiveText}
+            color={isBusiness ? color.WHITE : color.BLACK_LIGHT}
           >
             Business
           </Text>
@@ -52,16 +52,16 @@ const FrameScreen = ({ navigation }: any) => {
           onPress={() => setIsBusiness(false)}
         >
           <Text
-            size={responsiveScale(14)}
+            body
             medium
-            style={!isBusiness ? styles.activeText : styles.inactiveText}
+            color={!isBusiness ? color.WHITE : color.BLACK_LIGHT}
           >
             Personal
           </Text>
         </TouchableOpacity>
       </Block>
       <Block flex={1} center middle>
-        <NoFrameImg height={110} width={110} />
+        <Block flex={false}>{image.noFrameImg}</Block>
         <Text
           size={responsiveScale(20)}
           medium
@@ -72,7 +72,7 @@ const FrameScreen = ({ navigation }: any) => {
           No frame
         </Text>
       </Block>
-      <TouchableOpacity style={styles.createButton}  onPress={handleCreateFrame}>
+      <TouchableOpacity style={styles.createButton} onPress={handleCreateFrame}>
         <Text size={responsiveScale(14)} medium center color={color.WHITE}>
           Create new frame
         </Text>
@@ -100,12 +100,6 @@ const styles = StyleSheet.create({
   },
   inactiveToggle: {
     backgroundColor: color.WHITE,
-  },
-  activeText: {
-    color: color.WHITE,
-  },
-  inactiveText: {
-    color: color.BLACK_LIGHT,
   },
   noFrameText: {
     marginTop: perfectSize(10),

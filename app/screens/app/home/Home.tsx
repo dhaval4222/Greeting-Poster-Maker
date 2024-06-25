@@ -6,9 +6,9 @@ import Text from "../../../components/utilities/Text";
 import { color } from "../../../config/color";
 import { deviceWidth, font, perfectSize } from "../../../styles/theme";
 import { responsiveScale } from "../../../styles/mixins";
-import SearchIcon from "../../../assets/appImages/SearchIcon.svg";
 import FestivalCard from "../../../components/FestivalCard/FestivalCard";
 import Block from "../../../components/utilities/Block";
+import { image } from "../../../utils/Images";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const festivalsData = {
@@ -112,7 +112,7 @@ const Home = () => {
     <Block flex={1} style={styles.container}>
       <CustomHeader title="Greeting Poster Maker" />
       <Block flex={false} style={styles.searchBarContainer}>
-        <SearchIcon width={15} height={15} style={styles.searchIcon} />
+        {image.searchIcon}
         <TextInput
           style={styles.searchBar}
           placeholder="Search festival poster"
@@ -120,123 +120,104 @@ const Home = () => {
           // value={searchQuery}
         />
       </Block>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={[{}]}
-        keyExtractor={() => null}
-        renderItem={() => (
-          <>
-            {/* <KeyboardAwareScrollView nestedScrollEnabled={true}> */}
-            <Block flex={false} style={styles.section}>
-              <Text
-                size={responsiveScale(11)}
-                medium
-                style={styles.sectionTitle}
-              >
-                Today's festivals
-              </Text>
-              <Block flex={false}>
-                <FlatList
-                  horizontal
-                  data={festivalsData.today}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <FestivalCard
-                      festival={item}
-                      nameExtraStye={{
-                        position: "absolute",
-                        bottom: perfectSize(0),
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                        paddingVertical: perfectSize(6),
-                        borderBottomLeftRadius: perfectSize(5),
-                        borderBottomRightRadius: perfectSize(5),
-                        width: itemWidth,
-                        marginLeft: perfectSize(10),
-                      }}
-                      imageExtraStye={{
-                        width: itemWidth,
-                        marginLeft: perfectSize(10),
-                        height: perfectSize(138),
-                      }}
-                      festivalNameExtraStye={{
-                        color: color.WHITE,
-                      }}
-                    />
-                  )}
-                  keyExtractor={(item) => item.id}
-                  contentContainerStyle={{
-                    paddingHorizontal: perfectSize(7),
+
+      <KeyboardAwareScrollView nestedScrollEnabled={true}>
+        <Block flex={false} style={styles.section}>
+          <Text size={responsiveScale(11)} medium style={styles.sectionTitle}>
+            Today's festivals
+          </Text>
+          <Block flex={false}>
+            <FlatList
+              horizontal
+              data={festivalsData.today}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <FestivalCard
+                  festival={item}
+                  nameExtraStye={{
+                    position: "absolute",
+                    bottom: perfectSize(0),
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    paddingVertical: perfectSize(6),
+                    borderBottomLeftRadius: perfectSize(5),
+                    borderBottomRightRadius: perfectSize(5),
+                    width: itemWidth,
+                    marginLeft: perfectSize(10),
+                  }}
+                  imageExtraStye={{
+                    width: itemWidth,
+                    marginLeft: perfectSize(10),
+                    height: perfectSize(138),
+                  }}
+                  festivalNameExtraStye={{
+                    color: color.WHITE,
                   }}
                 />
-              </Block>
-            </Block>
-            <Block flex={false} style={styles.section}>
-              <Text
-                size={responsiveScale(11)}
-                medium
-                style={styles.sectionTitle}
-              >
-                Trending festivals
-              </Text>
-              <FlatList
-                horizontal
-                data={festivalsData.trending}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <FestivalCard
-                    festival={item}
-                    nameExtraStye={{
-                      width: secondItemWidth,
-                      marginLeft: perfectSize(15),
-                    }}
-                    imageExtraStye={{
-                      width: secondItemWidth,
-                      marginLeft: perfectSize(15),
-                      height: perfectSize(106),
-                    }}
-                  />
-                )}
-                keyExtractor={(item) => item.id}
-                contentContainerStyle={{ paddingRight: perfectSize(20) }}
+              )}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{
+                paddingHorizontal: perfectSize(7),
+              }}
+            />
+          </Block>
+        </Block>
+        <Block flex={false} style={styles.section}>
+          <Text size={responsiveScale(11)} medium style={styles.sectionTitle}>
+            Trending festivals
+          </Text>
+          <FlatList
+            horizontal
+            data={festivalsData.trending}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <FestivalCard
+                festival={item}
+                nameExtraStye={{
+                  width: secondItemWidth,
+                  marginLeft: perfectSize(15),
+                }}
+                imageExtraStye={{
+                  width: secondItemWidth,
+                  marginLeft: perfectSize(15),
+                  height: perfectSize(106),
+                }}
               />
-            </Block>
-            <Block flex={false} style={styles.section}>
-              <Text
-                size={responsiveScale(11)}
-                medium
-                style={styles.sectionTitle}
-              >
-                Upcoming festivals
-              </Text>
-              <FlatList
-                numColumns={3}
-                data={festivalsData.upcoming}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <FestivalCard
-                    festival={item}
-                    nameExtraStye={{
-                      width: secondItemWidth,
-                      marginLeft: perfectSize(15),
-                      marginBottom: perfectSize(10),
-                    }}
-                    imageExtraStye={{
-                      width: secondItemWidth,
-                      marginLeft: perfectSize(15),
-                      height: perfectSize(106),
-                    }}
-                    cardDateExtraStyle={{
-                      bottom: perfectSize(45),
-                    }}
-                  />
-                )}
-                keyExtractor={(item) => item.id}
-                contentContainerStyle={{ paddingRight: perfectSize(20) }}
+            )}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ paddingRight: perfectSize(20) }}
+          />
+        </Block>
+        <Block flex={false} style={styles.section}>
+          <Text size={responsiveScale(11)} medium style={styles.sectionTitle}>
+            Upcoming festivals
+          </Text>
+          <FlatList
+            numColumns={3}
+            data={festivalsData.upcoming}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <FestivalCard
+                festival={item}
+                nameExtraStye={{
+                  width: secondItemWidth,
+                  marginLeft: perfectSize(15),
+                  marginBottom: perfectSize(10),
+                }}
+                imageExtraStye={{
+                  width: secondItemWidth,
+                  marginLeft: perfectSize(15),
+                  height: perfectSize(106),
+                }}
+                cardDateExtraStyle={{
+                  bottom: perfectSize(45),
+                }}
               />
-            </Block>
-          </>
-        )}
-      />
+            )}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ paddingRight: perfectSize(20) }}
+          />
+        </Block>
+      </KeyboardAwareScrollView>
     </Block>
   );
 };
@@ -270,6 +251,7 @@ const styles = StyleSheet.create({
     marginLeft: perfectSize(5),
     fontSize: perfectSize(12),
     fontFamily: font.regular,
+    paddingLeft: perfectSize(10),
   },
   searchIcon: {
     marginRight: perfectSize(10),
