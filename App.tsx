@@ -1,8 +1,8 @@
-import React from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
-import { Provider } from 'react-redux';
-import configureStore from './app/store/configureStore';
-import Navigation from './app/navigation';
+import React from "react";
+import { StatusBar, StyleSheet, View } from "react-native";
+import { Provider } from "react-redux";
+import configureStore from "./app/store/configureStore";
+import AppNavigator from "./app/navigation/appNavigator/AppNavigator";
 
 const App = () => {
   const store = configureStore();
@@ -10,7 +10,7 @@ const App = () => {
     <Provider store={store}>
       <StatusBar barStyle="default" backgroundColor="transparent" />
       <View style={styles.container}>
-        <Navigation />
+        <AppNavigator />
       </View>
     </Provider>
   );
