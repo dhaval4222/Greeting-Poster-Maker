@@ -1,14 +1,25 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { font, perfectSize } from "../styles/theme";
+import { image } from "../utils/Images";
+import { useNavigation } from "@react-navigation/native";
 
-const CustomHeader = ({ title }) => {
+const CustomHeader = ({ title, isBack = false }: any) => {
   const { top, bottom } = useSafeAreaInsets();
+  const navigation = useNavigation();
   return (
     <View style={[styles.headerContainer, { paddingTop: top }]}>
+      {isBack ? (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          {image.backArrowIcon}
+        </TouchableOpacity>
+      ) : null}
+
       <View style={styles.leftContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
+      {isBack ? <View style={styles.blankView} /> : null}
     </View>
   );
 };
@@ -30,7 +41,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: font.bold,
     color: "#333",
     textAlign: "center",
     color: "#EEEEEE",
@@ -42,5 +53,9 @@ const styles = StyleSheet.create({
   rightContainer: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  blankView: {
+    height: perfectSize(20),
+    width: perfectSize(20),
   },
 });

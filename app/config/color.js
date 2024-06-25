@@ -1,5 +1,11 @@
 export const color = {
   WHITE: "#FFFFFF",
+  OFF_WHITE: "#EEEEEE",
   BLACK: "#000000",
-  BLUE:"#2885C9"
+  BLACK_LIGHT: "#333333",
+  BLUE: "#2885C9",
+  GRAY_LIGHT: "#EBEBEB",
+  GRAY_DARK: "#9B9B9B",
+  GREY: "#A6A6A6",
+  DARK_GREY: "#222222",
 };

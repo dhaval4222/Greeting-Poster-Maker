@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   View,
   Animated,
   SafeAreaView,
   StatusBar,
-} from 'react-native';
-import { theme } from '../../styles';
-import { colors, perfectSize } from '../../styles/theme';
+} from "react-native";
+import { theme } from "../../styles";
+import { colors, perfectSize } from "../../styles/theme";
 
 export default class Block extends Component {
   handleMargins() {
     const { margin } = this.props;
-    if (typeof margin === 'number') {
+    if (typeof margin === "number") {
       return {
         marginTop: margin,
         marginRight: margin,
@@ -21,7 +21,7 @@ export default class Block extends Component {
       };
     }
 
-    if (typeof margin === 'object') {
+    if (typeof margin === "object") {
       const msize = Object.keys(margin).length;
       switch (msize) {
         case 1:
@@ -58,7 +58,7 @@ export default class Block extends Component {
 
   handlePaddings() {
     const { padding } = this.props;
-    if (typeof padding === 'number') {
+    if (typeof padding === "number") {
       return {
         paddingTop: padding,
         paddingRight: padding,
@@ -67,7 +67,7 @@ export default class Block extends Component {
       };
     }
 
-    if (typeof padding === 'object') {
+    if (typeof padding === "object") {
       const paddingSize = Object.keys(padding).length;
       switch (paddingSize) {
         case 1:
@@ -104,13 +104,13 @@ export default class Block extends Component {
 
   handleHeight() {
     const { height } = this.props;
-    if (typeof height === 'string') {
+    if (typeof height === "string") {
       return {
         height: height,
       };
     }
 
-    if (typeof height === 'number') {
+    if (typeof height === "number") {
       return {
         height: height,
       };
@@ -119,13 +119,13 @@ export default class Block extends Component {
 
   handleWidth() {
     const { width } = this.props;
-    if (typeof width === 'string') {
+    if (typeof width === "string") {
       return {
         width: width,
       };
     }
 
-    if (typeof width === 'number') {
+    if (typeof width === "number") {
       return {
         width: width,
       };
@@ -191,7 +191,7 @@ export default class Block extends Component {
       card && styles.card,
       shadow && styles.shadow,
       space && { justifyContent: `space-${space}` },
-      wrap && { flexWrap: 'wrap' },
+      wrap && { flexWrap: "wrap" },
       radius && { borderRadius: perfectSize(radius) },
       // isArabic && styles,
       color && styles[color], // predefined styles colors for backgroundColor
@@ -217,10 +217,10 @@ export default class Block extends Component {
           />
         )}
         {/* {safeAreaView && ( */}
-        <StatusBar
+        {/* <StatusBar
           backgroundColor={statusBarColor || colors.headerThemeColor}
-          barStyle={darkStatusBar ? 'dark-content' : 'dark-content'}
-        />
+          barStyle={darkStatusBar ? "dark-content" : "dark-content"}
+        /> */}
         {children}
       </View>
     );
@@ -233,43 +233,43 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   column: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   card: {
     borderRadius: theme.sizes.radius,
   },
   selfcenter: {
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   center: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   middle: {
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   left: {
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   },
   right: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   top: {
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   },
   bottom: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   between: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   around: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
   },
   evenly: {
-    justifyContent: 'space-evenly',
+    justifyContent: "space-evenly",
   },
   shadow: {
     shadowColor: theme.colors.black,

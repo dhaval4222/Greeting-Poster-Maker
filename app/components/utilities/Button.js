@@ -5,6 +5,7 @@ import { perfectSize } from "../../styles/theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, font } from "../../styles/theme";
 import { responsiveScale } from "../../styles/mixins";
+import { color } from "../../config/color";
 
 export default function Button({
   name,
@@ -20,18 +21,10 @@ export default function Button({
       style={[
         styles.btnView,
         extraBtnViewStyle,
-        { marginBottom: bottom, marginBottom: 20 },
+        // { marginBottom: bottom, marginBottom: 20 },
       ]}
     >
-      <Text
-        regular
-        size={responsiveScale(11)}
-        color={colors.white}
-        style={{
-          fontFamily: font.regular,
-          fontWeight: 500,
-        }}
-      >
+      <Text medium body color={colors.white}>
         {name}
       </Text>
     </TouchableOpacity>
@@ -42,10 +35,10 @@ const styles = StyleSheet.create({
   btnView: {
     alignItems: "center",
     justifyContent: "center",
-    height: perfectSize(45),
-    backgroundColor: colors.black,
-    width: "100%",
+    height: perfectSize(40),
+    backgroundColor: color.BLUE,
+    width: "75%",
     alignSelf: "center",
-    marginTop: perfectSize(20),
+    borderRadius: perfectSize(20),
   },
 });

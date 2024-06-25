@@ -1,37 +1,23 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import Block from './Block';
-import { colors, font, perfectSize } from '../../styles/theme';
-import { responsiveScale } from '../../styles/mixins';
-import { image } from '../../utils/Images';
+import { StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import Block from "./Block";
+import { colors, font, perfectSize } from "../../styles/theme";
+import { responsiveScale } from "../../styles/mixins";
+import { image } from "../../utils/Images";
+import { color } from "../../config/color";
 
 export default function CustomTextInput({
   value,
   placeholder,
-  onchangeText = () => {},
-  isVisiblePassword = false,
-  extraTextInputStyle,
-  labelAndTextInputMainView,
+  onChangeText = () => {},
+  extraTitleStyle,
+  extraInputStyle,
   multiline,
   keyboardType,
-  maxLength,
-  editable,
-  selection,
-  textAlignVertical = 'center',
-  placeholderTextColor,
+  textAlignVertical = "center",
   itemTitle,
-  secureTextEntry = false,
   autoCapitalize,
 }) {
-  const [hideAndShowPassword, setHideAndShowPassword] =
-    useState(secureTextEntry);
-  const [hide, setHide] = useState(true);
-
-  const handleHideShowPassword = () => {
-    setHide(!hide);
-    setHideAndShowPassword(!hideAndShowPassword);
-  };
-
   return (
     <Block flex={false}>
       <Block
@@ -43,37 +29,22 @@ export default function CustomTextInput({
           perfectSize(0),
         ]}
       >
-        <Text style={styles.itemTitle}>{itemTitle}</Text>
+        <Text style={[styles.itemTitle, { extraTitleStyle }]}>{itemTitle}</Text>
       </Block>
-      <Block flex={false} style={[styles.mainView, labelAndTextInputMainView]}>
+      <Block flex={false} style={[styles.mainView]}>
         <Block flex={false} row between center middle>
           <TextInput
-            style={[styles.inputStyle, extraTextInputStyle]}
+            style={[styles.inputStyle, extraInputStyle]}
             value={value}
             multiline={multiline}
             placeholder={placeholder}
-            placeholderTextColor={placeholderTextColor}
-            onChangeText={value => onchangeText(value)}
-            secureTextEntry={hideAndShowPassword}
+            placeholderTextColor={color.GRAY_DARK}
+            onChangeText={(value) => onChangeText(value)}
             keyboardType={keyboardType}
-            maxLength={maxLength}
-            editable={editable}
-            selection={selection}
             textAlignVertical={textAlignVertical}
             numberOfLines={1}
             autoCapitalize={autoCapitalize}
           />
-
-          {isVisiblePassword && (
-            <TouchableOpacity
-              hitSlop={{ top: 20, left: 20, right: 20, bottom: 20 }}
-              onPress={() => {
-                handleHideShowPassword();
-              }}
-            >
-              {hideAndShowPassword ? image?.hide : image?.eye}
-            </TouchableOpacity>
-          )}
         </Block>
       </Block>
     </Block>
@@ -82,22 +53,21 @@ export default function CustomTextInput({
 
 const styles = StyleSheet.create({
   mainView: {
-    borderWidth: 1,
-    borderColor: colors.gray5,
+    borderWidth: perfectSize(1.5),
+    borderRadius: perfectSize(10),
+    borderColor: color.BLUE,
     paddingHorizontal: perfectSize(15),
   },
   inputStyle: {
     fontSize: responsiveScale(12),
-    // fontFamily: font.medium,
-    color: colors.Black_Text,
+    fontFamily: font.medium,
+    color: color.BLACK,
     paddingVertical: 0,
-    width: '100%',
+    width: "100%",
     height: perfectSize(50),
   },
   itemTitle: {
-    // color: colors.Black_Text,
-    fontSize: responsiveScale(11),
-    // fontFamily: font.regular,
-    fontWeight: '400',
+    fontSize: responsiveScale(16),
+    fontFamily: font.medium,
   },
 });

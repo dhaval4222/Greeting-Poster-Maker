@@ -10,6 +10,8 @@ import { font, perfectSize } from "../../styles/theme";
 import { Platform, View } from "react-native";
 import { responsiveScale } from "../../styles/mixins";
 import Text from "../../components/utilities/Text";
+import Setting from "../../screens/app/setting/Setting";
+import Suggestions from "../../screens/app/suggestions/Suggestions";
 
 const AppStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,7 +41,11 @@ function BottomTab() {
         component={DashBoard}
         options={{
           tabBarLabel: ({ focused }) => (
-            <Text color={focused ? color.BLUE : color.BLACK} caption medium>
+            <Text
+              color={focused ? color.BLUE : color.BLACK_LIGHT}
+              caption
+              medium
+            >
               Home
             </Text>
           ),
@@ -52,7 +58,11 @@ function BottomTab() {
         component={Home}
         options={{
           tabBarLabel: ({ focused }) => (
-            <Text color={focused ? color.BLUE : color.BLACK} caption medium>
+            <Text
+              color={focused ? color.BLUE : color.BLACK_LIGHT}
+              caption
+              medium
+            >
               Frame
             </Text>
           ),
@@ -63,10 +73,14 @@ function BottomTab() {
       />
       <Tab.Screen
         name="Settings"
-        component={DashBoard}
+        component={Setting}
         options={{
           tabBarLabel: ({ focused }) => (
-            <Text color={focused ? color.BLUE : color.BLACK} caption medium>
+            <Text
+              color={focused ? color.BLUE : color.BLACK_LIGHT}
+              caption
+              medium
+            >
               Setting
             </Text>
           ),
@@ -84,9 +98,11 @@ export default function AppNavigator() {
         initialRouteName={"BottomTab"}
         screenOptions={{ headerShown: false }}
       >
+        <AppStack.Screen name="BottomTab" component={BottomTab} />
         <AppStack.Screen
-          name="BottomTab"
-          component={BottomTab}
+          name="Suggestions"
+          component={Suggestions}
+          options={{ headerTitleAlign: "center" }}
         />
         <AppStack.Screen
           name="DashBoard"

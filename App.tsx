@@ -8,7 +8,7 @@ const App = () => {
   const store = configureStore();
   return (
     <Provider store={store}>
-      <StatusBar barStyle="default" backgroundColor="transparent" />
+      <StatusBar barStyle="light-content" backgroundColor="transparent" />
       <View style={styles.container}>
         <AppNavigator />
       </View>
