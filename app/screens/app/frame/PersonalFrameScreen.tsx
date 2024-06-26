@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import Block from "../../../components/utilities/Block";
 import CustomHeader from "../../../components/CustomHeader";
@@ -13,7 +13,7 @@ import { image } from "../../../utils/Images";
 import Text from "../../../components/utilities/Text";
 import ImagePicker from "react-native-image-crop-picker";
 
-const PersonalFrameScreen = () => {
+const PersonalFrameScreen = ({ route }: any) => {
   const { bottom } = useSafeAreaInsets();
   const [yourName, setYourName] = useState("");
   const [occupation, setOccupation] = useState("");
@@ -21,7 +21,23 @@ const PersonalFrameScreen = () => {
   const [email, setEmail] = useState("");
   const [logoUri, setLogoUri] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
+  const personalframeData = route.params?.personalframeData;
 
+  useEffect(() => {
+    if (personalframeData) {
+      setYourName(personalframeData.name);
+      setContactNumber(personalframeData.phone);
+      setEmail(personalframeData.email);
+      setLogoUri(personalframeData.image);
+    }
+  }, []);
+  const handleSave = () => {
+    if (personalframeData) {
+      console.log("Update data");
+    } else {
+      console.log("Save data");
+    }
+  };
   const handleSelectPhoto = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -40,11 +56,15 @@ const PersonalFrameScreen = () => {
     setCountryCode(`+${country.callingCode[0]}`);
   };
   return (
-    <Block flex={1}>
-      <CustomHeader title={"Create Frame"} isBack={true} />
+    <Block flex={1} color={color.WHITE}>
+      <CustomHeader
+        title={personalframeData ? "Edit Frame" : "Create Frame"}
+        isBack={true}
+      />
       <KeyboardAwareScrollView style={{ flex: 1 }}>
         <Block flex={1} margin={[perfectSize(10), perfectSize(20)]}>
           <Block
+            flex={false}
             center
             margin={[
               perfectSize(10),
@@ -53,7 +73,7 @@ const PersonalFrameScreen = () => {
               perfectSize(0),
             ]}
           >
-            {image?.businessIcon}
+            {image?.personalIcon}
           </Block>
           <Text color={color.BLACK} medium center h2>
             Personal
@@ -146,9 +166,13 @@ const PersonalFrameScreen = () => {
               onPress={handleSelectPhoto}
             >
               <Image
-                source={{ uri: logoUri }}
+                source={
+                  personalframeData?.image
+                    ? personalframeData?.image
+                    : { uri: logoUri }
+                }
                 style={styles.logoImage}
-                resizeMode="stretch"
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : (
@@ -177,10 +201,11 @@ const PersonalFrameScreen = () => {
 
         <Button
           name={"Save"}
-          onPress={() => {}}
+          onPress={() => handleSave()}
           extraBtnViewStyle={{
             marginBottom: bottom + 10,
           }}
+          extraBtnTextStyle={{}}
           disabled={false}
         />
       </KeyboardAwareScrollView>
@@ -211,8 +236,7 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     width: "100%",
-    height: 100,
-    borderRadius: 10,
-    backgroundColor: "red",
+    height: perfectSize(100),
+    borderRadius: perfectSize(10),
   },
 });

@@ -6,7 +6,7 @@ import Text from "../../../components/utilities/Text";
 import { color } from "../../../config/color";
 import { deviceWidth, font, perfectSize } from "../../../styles/theme";
 import { responsiveScale } from "../../../styles/mixins";
-import FestivalCard from "../../../components/FestivalCard/FestivalCard";
+import FestivalCard from "../../../components/festivalCard/FestivalCard";
 import Block from "../../../components/utilities/Block";
 import { image } from "../../../utils/Images";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import Block from "../../../components/utilities/Block";
 import CustomHeader from "../../../components/CustomHeader";
-import {  perfectSize } from "../../../styles/theme";
+import { perfectSize } from "../../../styles/theme";
 import CustomTextInput from "../../../components/utilities/CustomTextInput";
 import { color } from "../../../config/color";
 import Button from "../../../components/utilities/Button";
@@ -13,7 +13,7 @@ import { image } from "../../../utils/Images";
 import Text from "../../../components/utilities/Text";
 import ImagePicker from "react-native-image-crop-picker";
 
-const BusinessFrameScreen = () => {
+const BusinessFrameScreen = ({ route }: any) => {
   const { bottom } = useSafeAreaInsets();
   const [companyName, setCompanyName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -22,7 +22,24 @@ const BusinessFrameScreen = () => {
   const [address, setAddress] = useState("");
   const [logoUri, setLogoUri] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
+  const businessframeData = route.params?.businessframeData;
 
+  useEffect(() => {
+    if (businessframeData) {
+      setCompanyName(businessframeData.name);
+      setContactNumber(businessframeData.phone);
+      setEmail(businessframeData.email);
+      setAddress(businessframeData.address);
+      setLogoUri(businessframeData.image);
+    }
+  }, []);
+  const handleSave = () => {
+    if (businessframeData) {
+      console.log("Update data");
+    } else {
+      console.log("Save data");
+    }
+  };
   const handleSelectPhoto = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -40,11 +57,14 @@ const BusinessFrameScreen = () => {
     setCountryCode(`+${country.callingCode[0]}`);
   };
   return (
-    <Block flex={1}>
-      <CustomHeader title={"Create Frame"} isBack={true} />
+    <Block flex={1} color={color.WHITE}>
+      <CustomHeader
+        title={businessframeData ? "Edit Frame" : "Create Frame"}
+        isBack={true}
+      />
       <KeyboardAwareScrollView style={{ flex: 1 }}>
         <Block flex={1} margin={[perfectSize(10), perfectSize(20)]}>
-          <Block
+          <Block flex={false}
             center
             margin={[
               perfectSize(10),
@@ -159,9 +179,13 @@ const BusinessFrameScreen = () => {
               onPress={handleSelectPhoto}
             >
               <Image
-                source={{ uri: logoUri }}
+                source={
+                  businessframeData?.image
+                    ? businessframeData?.image
+                    : { uri: logoUri }
+                }
                 style={styles.logoImage}
-                resizeMode="stretch"
+                resizeMode="contain"
               />
             </TouchableOpacity>
           ) : (
@@ -190,10 +214,11 @@ const BusinessFrameScreen = () => {
 
         <Button
           name={"Save"}
-          onPress={() => {}}
+          onPress={() => handleSave()}
           extraBtnViewStyle={{
             marginBottom: bottom + 10,
           }}
+          extraBtnTextStyle={{}}
           disabled={false}
         />
       </KeyboardAwareScrollView>
@@ -224,8 +249,7 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     width: "100%",
-    height: 100,
-    borderRadius: 10,
-    backgroundColor: "red",
+    height: perfectSize(100),
+    borderRadius: perfectSize(10),
   },
 });

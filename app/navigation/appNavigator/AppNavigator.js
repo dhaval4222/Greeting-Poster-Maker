@@ -13,9 +13,9 @@ import Suggestions from "../../screens/app/suggestions/Suggestions";
 import DashBoard from "../../screens/app/home/Home";
 import Home from "../../screens/app/home/Home";
 import FrameScreen from "../../screens/app/frame/FrameScreen";
-import BusinessFrameScreen from "../../screens/app/frame/BusinessFrameScreen";
 import PersonalFrameScreen from "../../screens/app/frame/PersonalFrameScreen";
 import CreatePosterScreen from "../../screens/app/createPosterScreen/CreatePosterScreen";
+import BusinessFrameScreen from "../../screens/app/frame/BusinessFrameScreen";
 
 const AppStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -118,7 +118,7 @@ export default function AppNavigator() {
           component={PersonalFrameScreen}
           options={{ headerTitleAlign: "center" }}
         />
-         <AppStack.Screen
+        <AppStack.Screen
           name="CreatePosterScreen"
           component={CreatePosterScreen}
           options={{ headerTitleAlign: "center" }}

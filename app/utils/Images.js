@@ -16,6 +16,10 @@ import BusinessIcon from "../assets/appImages/BusinessIcon.svg";
 import NoFrameImg from "../assets/appImages/NoFrameImg.svg";
 import SearchIcon from "../assets/appImages/SearchIcon.svg";
 import CameraIcon from "../assets/appImages/CameraIcon.svg";
+import PersonalIcon from "../assets/appImages/PersonalIcon.svg";
+import DeleteIcon from "../assets/appImages/DeleteIcon.svg";
+import EditIcon from "../assets/appImages/EditIcon.svg";
+import CheckIcon from "../assets/appImages/CheckIcon.svg";
 
 export const image = {
   eye: <Eye width={perfectSize(20)} height={perfectSize(20)} />,
@@ -47,4 +51,8 @@ export const image = {
   noFrameImg: <NoFrameImg height={110} width={110} />,
   searchIcon: <SearchIcon width={15} height={15} />,
   cameraIcon: <CameraIcon width={35} height={30} />,
+  personalIcon: <PersonalIcon width={92} height={92} />,
+  deleteIcon: <DeleteIcon width={18} height={18} />,
+  editIcon: <EditIcon width={18} height={18} />,
+  checkIcon: <CheckIcon width={16} height={16} />,
 };

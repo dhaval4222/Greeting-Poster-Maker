@@ -54,7 +54,7 @@ const RenderItem = ({ item, navigation }: any) => {
 };
 const Setting = ({ navigation }: any) => {
   return (
-    <Block flex={1}>
+    <Block flex={1} color={color.WHITE}>
       <CustomHeader title={"Settings"} isBack={false} />
       <Block flex={1} margin={[0, perfectSize(20)]}>
         <FlatList

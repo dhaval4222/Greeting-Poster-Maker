@@ -12,6 +12,7 @@ export default function Button({
   extraBtnViewStyle,
   disabled,
   onPress = () => {},
+  extraBtnTextStyle,
 }) {
   const { bottom } = useSafeAreaInsets();
   return (
@@ -24,7 +25,7 @@ export default function Button({
         // { marginBottom: bottom, marginBottom: 20 },
       ]}
     >
-      <Text medium body color={colors.white}>
+      <Text medium body color={colors.white} style={extraBtnTextStyle}>
         {name}
       </Text>
     </TouchableOpacity>

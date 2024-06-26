@@ -24,13 +24,13 @@ const Suggestions = () => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
-        setDescriptionHeight(deviceHeight * 0.2); 
+        setDescriptionHeight(deviceHeight * 0.2);
       }
     );
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
       () => {
-        setDescriptionHeight(deviceHeight * 0.5); 
+        setDescriptionHeight(deviceHeight * 0.5);
       }
     );
 
@@ -40,7 +40,7 @@ const Suggestions = () => {
     };
   }, []);
   return (
-    <Block flex={1} padding={[0, 0, bottom, 0]}>
+    <Block flex={1} color={color.WHITE} padding={[0, 0, bottom, 0]}>
       <CustomHeader title={"Suggestion"} isBack={true} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
         <Block flex={1} margin={[perfectSize(10), perfectSize(20)]}>
