@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { responsiveScale } from "../../../styles/mixins";
 import { color } from "../../../config/color";
 import Text from "../../../components/utilities/Text";
@@ -7,9 +7,13 @@ import Block from "../../../components/utilities/Block";
 import CustomHeader from "../../../components/CustomHeader";
 import { perfectSize } from "../../../styles/theme";
 import { image } from "../../../utils/Images";
+import Button from "../../../components/utilities/Button";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const FrameScreen = ({ navigation }: any) => {
   const [isBusiness, setIsBusiness] = useState(true);
+  const { bottom } = useSafeAreaInsets();
+
   const handleCreateFrame = () => {
     if (isBusiness) {
       navigation.navigate("BusinessFrameScreen");
@@ -72,11 +76,14 @@ const FrameScreen = ({ navigation }: any) => {
           No frame
         </Text>
       </Block>
-      <TouchableOpacity style={styles.createButton} onPress={handleCreateFrame}>
-        <Text size={responsiveScale(14)} medium center color={color.WHITE}>
-          Create new frame
-        </Text>
-      </TouchableOpacity>
+      <Button
+        name={"Create new frame"}
+        onPress={handleCreateFrame}
+        extraBtnViewStyle={{
+          marginBottom: bottom,
+        }}
+        disabled={false}
+      />
     </Block>
   );
 };

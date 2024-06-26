@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, TextInput, FlatList } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import CustomHeader from "../../../components/CustomHeader";
@@ -100,7 +100,7 @@ const festivalsData = {
   ],
 };
 
-const Home = () => {
+const Home = ({ navigation }: any) => {
   const itemWidth = (deviceWidth - 4 * 10) / 3;
   const secondItemWidth = (deviceWidth - 4 * 17) / 3;
 
@@ -152,6 +152,11 @@ const Home = () => {
                   festivalNameExtraStye={{
                     color: color.WHITE,
                   }}
+                  onCardPress={(item: any) =>
+                    navigation.navigate("CreatePosterScreen", {
+                      item: item,
+                    })
+                  }
                 />
               )}
               keyExtractor={(item) => item.id}
@@ -181,6 +186,11 @@ const Home = () => {
                   marginLeft: perfectSize(15),
                   height: perfectSize(106),
                 }}
+                onCardPress={(item: any) =>
+                  navigation.navigate("CreatePosterScreen", {
+                    item: item,
+                  })
+                }
               />
             )}
             keyExtractor={(item) => item.id}
@@ -211,6 +221,11 @@ const Home = () => {
                 cardDateExtraStyle={{
                   bottom: perfectSize(45),
                 }}
+                onCardPress={(item: any) =>
+                  navigation.navigate("CreatePosterScreen", {
+                    item: item,
+                  })
+                }
               />
             )}
             keyExtractor={(item) => item.id}

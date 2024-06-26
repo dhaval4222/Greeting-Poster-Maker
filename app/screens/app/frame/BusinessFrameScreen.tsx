@@ -1,8 +1,8 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import Block from "../../../components/utilities/Block";
 import CustomHeader from "../../../components/CustomHeader";
-import { colors, perfectSize } from "../../../styles/theme";
+import {  perfectSize } from "../../../styles/theme";
 import CustomTextInput from "../../../components/utilities/CustomTextInput";
 import { color } from "../../../config/color";
 import Button from "../../../components/utilities/Button";
@@ -11,6 +11,7 @@ import { responsiveScale } from "../../../styles/mixins";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { image } from "../../../utils/Images";
 import Text from "../../../components/utilities/Text";
+import ImagePicker from "react-native-image-crop-picker";
 
 const BusinessFrameScreen = () => {
   const { bottom } = useSafeAreaInsets();
@@ -20,7 +21,24 @@ const BusinessFrameScreen = () => {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [address, setAddress] = useState("");
   const [logoUri, setLogoUri] = useState("");
+  const [countryCode, setCountryCode] = useState("+91");
 
+  const handleSelectPhoto = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    })
+      .then((image) => {
+        setLogoUri(image.path);
+      })
+      .catch((error) => {
+        console.log("Error opening gallery:", error);
+      });
+  };
+  const handleCountrySelect = (country: any) => {
+    setCountryCode(`+${country.callingCode[0]}`);
+  };
   return (
     <Block flex={1}>
       <CustomHeader title={"Create Frame"} isBack={true} />
@@ -58,7 +76,7 @@ const BusinessFrameScreen = () => {
             itemTitle={"Company Name"}
             value={companyName}
             placeholder={"Please enter company name"}
-            onChangeText={(text: string) => setCompanyName(text)}
+            onChangeText={(text: any) => setCompanyName(text)}
             extraTitleStyle={{
               color: color.BLUE,
               fontSize: responsiveScale(13),
@@ -71,7 +89,7 @@ const BusinessFrameScreen = () => {
             itemTitle={"Contact Number"}
             value={contactNumber}
             placeholder={"Contact number"}
-            onChangeText={(text: string) => setContactNumber(text)}
+            onChangeText={(text: any) => setContactNumber(text)}
             extraTitleStyle={{
               color: color.BLUE,
               fontSize: responsiveScale(13),
@@ -79,12 +97,14 @@ const BusinessFrameScreen = () => {
             multiline={false}
             keyboardType={"numeric"}
             textAlignVertical={"center"}
+            countryCode={countryCode}
+            onSelectCountry={handleCountrySelect}
           />
           <CustomTextInput
             itemTitle={"Email Id"}
             value={email}
             placeholder={"Email Id"}
-            onChangeText={(text: string) => setEmail(text)}
+            onChangeText={(text: any) => setEmail(text)}
             extraTitleStyle={{
               color: color.BLUE,
               fontSize: responsiveScale(13),
@@ -97,7 +117,7 @@ const BusinessFrameScreen = () => {
             itemTitle={"Website URL"}
             value={websiteUrl}
             placeholder={"Enter website URL"}
-            onChangeText={(text: string) => setWebsiteUrl(text)}
+            onChangeText={(text: any) => setWebsiteUrl(text)}
             extraTitleStyle={{
               color: color.BLUE,
               fontSize: responsiveScale(13),
@@ -110,7 +130,7 @@ const BusinessFrameScreen = () => {
             itemTitle={"Address"}
             value={address}
             placeholder={"Enter office address"}
-            onChangeText={(text: string) => setAddress(text)}
+            onChangeText={(text: any) => setAddress(text)}
             extraTitleStyle={{
               color: color.BLUE,
               fontSize: responsiveScale(13),
@@ -130,32 +150,49 @@ const BusinessFrameScreen = () => {
           ]}
         >
           <Text medium color={color.BLUE} size={responsiveScale(10)}>
-            Show my photo
+            Show company logo
           </Text>
-          <TouchableOpacity style={styles.showPhotoView}>
-            <Block
-              flex={false}
-              center
-              margin={[
-                perfectSize(0),
-                perfectSize(0),
-                perfectSize(10),
-                perfectSize(0),
-              ]}
+
+          {logoUri ? (
+            <TouchableOpacity
+              style={styles.showPhotoView}
+              onPress={handleSelectPhoto}
             >
-              {image.cameraIcon}
-            </Block>
-            <Text color={color.GREY_COLOR} regular center caption>
-              Upload your photo
-            </Text>
-          </TouchableOpacity>
+              <Image
+                source={{ uri: logoUri }}
+                style={styles.logoImage}
+                resizeMode="stretch"
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.showPhotoView}
+              onPress={handleSelectPhoto}
+            >
+              <Block
+                flex={false}
+                center
+                margin={[
+                  perfectSize(0),
+                  perfectSize(0),
+                  perfectSize(10),
+                  perfectSize(0),
+                ]}
+              >
+                {image.cameraIcon}
+              </Block>
+              <Text color={color.GREY_COLOR} regular center caption>
+                Upload your photo
+              </Text>
+            </TouchableOpacity>
+          )}
         </Block>
 
         <Button
           name={"Save"}
           onPress={() => {}}
           extraBtnViewStyle={{
-            marginBottom: bottom,
+            marginBottom: bottom + 10,
           }}
           disabled={false}
         />
@@ -184,5 +221,11 @@ const styles = StyleSheet.create({
     marginBottom: perfectSize(30),
     borderRadius: perfectSize(10),
     borderStyle: "dashed",
+  },
+  logoImage: {
+    width: "100%",
+    height: 100,
+    borderRadius: 10,
+    backgroundColor: "red",
   },
 });

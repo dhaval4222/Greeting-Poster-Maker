@@ -5,13 +5,22 @@ import { font, perfectSize } from "../styles/theme";
 import { image } from "../utils/Images";
 import { useNavigation } from "@react-navigation/native";
 
-const CustomHeader = ({ title, isBack = false }: any) => {
+const CustomHeader = ({
+  title,
+  isBack = false,
+  isleftIcon = false,
+  leftIconComponent,
+}: any) => {
   const { top, bottom } = useSafeAreaInsets();
   const navigation = useNavigation();
   return (
     <View style={[styles.headerContainer, { paddingTop: top }]}>
       {isBack ? (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={{ width: "13%" }}
+          onPress={() => navigation.goBack()}
+          hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+        >
           {image.backArrowIcon}
         </TouchableOpacity>
       ) : null}
@@ -19,7 +28,13 @@ const CustomHeader = ({ title, isBack = false }: any) => {
       <View style={styles.leftContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
-      {isBack ? <View style={styles.blankView} /> : null}
+      {isBack ? (
+        isleftIcon ? (
+          <View style={{ width: "13%" }}>{leftIconComponent}</View>
+        ) : (
+          <View style={styles.blankView} />
+        )
+      ) : null}
     </View>
   );
 };
@@ -42,7 +57,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontFamily: font.bold,
-    color: "#333",
     textAlign: "center",
     color: "#EEEEEE",
   },
@@ -56,6 +70,6 @@ const styles = StyleSheet.create({
   },
   blankView: {
     height: perfectSize(20),
-    width: perfectSize(20),
+    width: "13%",
   },
 });

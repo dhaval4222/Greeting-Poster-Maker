@@ -18,9 +18,10 @@ const FestivalCard = ({
   imageExtraStye,
   festivalNameExtraStye,
   cardDateExtraStyle,
+  onCardPress
 }: any) => (
   <>
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => onCardPress(festival)}>
       <Image
         source={festival.image}
         style={[styles.cardImage, imageExtraStye]}

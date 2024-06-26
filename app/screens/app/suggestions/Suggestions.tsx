@@ -1,4 +1,9 @@
-import { Keyboard, KeyboardAvoidingView, StyleSheet } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import Block from "../../../components/utilities/Block";
 import CustomHeader from "../../../components/CustomHeader";
@@ -19,13 +24,13 @@ const Suggestions = () => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
-        setDescriptionHeight(deviceHeight * 0.2); // Adjust height when keyboard is visible
+        setDescriptionHeight(deviceHeight * 0.2); 
       }
     );
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
       () => {
-        setDescriptionHeight(deviceHeight * 0.5); // Reset height when keyboard is hidden
+        setDescriptionHeight(deviceHeight * 0.5); 
       }
     );
 
@@ -35,7 +40,7 @@ const Suggestions = () => {
     };
   }, []);
   return (
-    <Block flex={1}>
+    <Block flex={1} padding={[0, 0, bottom, 0]}>
       <CustomHeader title={"Suggestion"} isBack={true} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
         <Block flex={1} margin={[perfectSize(10), perfectSize(20)]}>
@@ -71,7 +76,7 @@ const Suggestions = () => {
           name={"Submit"}
           onPress={() => {}}
           extraBtnViewStyle={{
-            marginBottom: bottom,
+            marginBottom: bottom > 0 ? 10 : perfectSize(30),
           }}
           disabled={false}
         />
