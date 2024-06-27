@@ -1,18 +1,15 @@
-import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
-} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
 import { responsiveScale } from "../../../styles/mixins";
 import { color } from "../../../config/color";
 import Text from "../../../components/utilities/Text";
 import Block from "../../../components/utilities/Block";
 import CustomHeader from "../../../components/CustomHeader";
 import { deviceWidth, perfectSize } from "../../../styles/theme";
-import PosterImage from "../../../components/posterImage/PosterImage";
+import PosterTheme from "../../../components/createPoster/PosterTheme";
+import PosterLogoPosition from "../../../components/createPoster/PosterLogoPosition";
+import PosterFont from "../../../components/createPoster/PosterFont";
+import PosterDetails from "../../../components/createPoster/PosterDetails";
 
 interface Option {
   id: number;
@@ -22,87 +19,222 @@ interface Option {
 
 const CreatePosterScreen = ({ route }: any) => {
   const options: Option[] = [
-    {
-      id: 1,
-      title: "Theme",
-      isSelect: false,
-    },
-    {
-      id: 2,
-      title: "Background",
-      isSelect: false,
-    },
-    {
-      id: 3,
-      title: "Graphics",
-      isSelect: false,
-    },
-    {
-      id: 4,
-      title: "Logo-Position",
-      isSelect: false,
-    },
-    {
-      id: 5,
-      title: "Font",
-      isSelect: false,
-    },
-    {
-      id: 6,
-      title: "Outline",
-      isSelect: false,
-    },
-    {
-      id: 7,
-      title: "Details",
-      isSelect: false,
-    },
+    { id: 1, title: "Theme", isSelect: false },
+    { id: 2, title: "Background", isSelect: false },
+    { id: 3, title: "Graphics", isSelect: false },
+    { id: 4, title: "Logo-Position", isSelect: false },
+    { id: 5, title: "Font", isSelect: false },
+    { id: 6, title: "Outline", isSelect: false },
+    { id: 7, title: "Details", isSelect: false },
   ];
 
-  const theme = [
-    {
-      id: 1,
-      image: require("../../../assets/appImages/GreetPoster.png"),
-    },
-    {
-      id: 2,
-      image: require("../../../assets/appImages/GuruPurnimaImg.png"),
-    },
-    {
-      id: 3,
-      image: require("../../../assets/appImages/GreetPoster.png"),
-    },
-    {
-      id: 4,
-      image: require("../../../assets/appImages/GuruPurnimaImg.png"),
-    },
-    {
-      id: 5,
-      image: require("../../../assets/appImages/GreetPoster.png"),
-    },
-    {
-      id: 6,
-      image: require("../../../assets/appImages/GuruPurnimaImg.png"),
-    },
-    {
-      id: 7,
-      image: require("../../../assets/appImages/GreetPoster.png"),
-    },
-    {
-      id: 8,
-      image: require("../../../assets/appImages/GuruPurnimaImg.png"),
-    },
-  ];
+  const data = {
+    theme: [
+      { id: 1, image: require("../../../assets/appImages/GreetPoster.png") },
+      { id: 2, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
+      { id: 3, image: require("../../../assets/appImages/GreetPoster.png") },
+      { id: 4, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
+      { id: 5, image: require("../../../assets/appImages/GreetPoster.png") },
+      { id: 6, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
+      { id: 7, image: require("../../../assets/appImages/GreetPoster.png") },
+      { id: 8, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
+    ],
+    background: [
+      {
+        id: 1,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+      {
+        id: 2,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+      {
+        id: 3,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+      {
+        id: 4,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+      {
+        id: 5,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+      {
+        id: 6,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+      {
+        id: 7,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+      {
+        id: 8,
+        image: require("../../../assets/appImages/BackgroundImage.png"),
+      },
+    ],
+    graphics: [
+      { id: 1, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 2, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 3, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 4, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 5, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 6, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 7, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 8, image: require("../../../assets/appImages/GraphicsImg.png") },
+    ],
+    logoPosition: [
+      {
+        id: 1,
+        logo: "Logo",
+        position: "Top-left",
+      },
+      {
+        id: 2,
+        logo: "Logo",
+        position: "Top-center",
+      },
+      {
+        id: 3,
+        logo: "Logo",
+        position: "Top-right",
+      },
+      {
+        id: 4,
+        logo: "Logo",
+        position: "Bottom-left",
+      },
+      {
+        id: 5,
+        logo: "Logo",
+        position: "Bottom-center",
+      },
+      {
+        id: 6,
+        logo: "Logo",
+        position: "Bottom-right",
+      },
+    ],
+    outline: [
+      { id: 1, borderStyle: "solid" },
+      { id: 2, borderStyle: "dotted" },
+      { id: 3, borderStyle: "dashed" },
+      { id: 4, borderStyle: "none" },
+    ],
+
+    details: [
+      {
+        id: 1,
+        name: "Name",
+        image: require("../../../assets/appImages/UserIcon.png"),
+      },
+      {
+        id: 2,
+        name: "Mobile",
+        image: require("../../../assets/appImages/UserIcon.png"),
+      },
+      {
+        id: 3,
+        name: "Email",
+        image: require("../../../assets/appImages/UserIcon.png"),
+      },
+      {
+        id: 4,
+        name: "Logo",
+        image: require("../../../assets/appImages/UserIcon.png"),
+      },
+      {
+        id: 5,
+        name: "Address",
+        image: require("../../../assets/appImages/UserIcon.png"),
+      },
+      {
+        id: 6,
+        name: "Website",
+        image: require("../../../assets/appImages/UserIcon.png"),
+      },
+    ],
+  };
 
   const { item } = route?.params;
-
   const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [selectedPoster, setSelectedPoster] = useState(theme[0]); 
+  const [selectedPoster, setSelectedPoster] = useState(data.theme[0]);
+  const [selectedBackground, setSelectedBackground] = useState(
+    data.background[0]
+  );
+  const [selectedGraphics, setSelectedGraphics] = useState(data.graphics[0]);
+  const [selectedLogoPosition, setSelectedLogoPosition] = useState(
+    data.logoPosition[0]
+  );
+  const [selectedDetail, setSelectedDetail] = useState(data.details[0]);
+  const [selectedOutline, setSelectedOutline] = useState(data.outline[0]);
+
+  const [currentData, setCurrentData] = useState(data.theme);
+  const [selectedImage, setSelectedImage] = useState(item?.image);
+  const [selectedBorderStyle, setSelectedBorderStyle] = useState("none");
+
   const flatListRef = useRef<FlatList<Option>>(null);
 
-  const handlePosterSelect = (theme: any) => {
-    setSelectedPoster(theme);
+  useEffect(() => {
+    switch (selectedOption.title) {
+      case "Theme":
+        setCurrentData(data.theme);
+        break;
+      case "Background":
+        setCurrentData(data.background);
+        break;
+      case "Graphics":
+        setCurrentData(data.graphics);
+        break;
+      case "Logo-Position":
+        setCurrentData(data.logoPosition);
+        break;
+      case "Font":
+        setCurrentData([]);
+        break;
+      case "Outline":
+        setCurrentData(data.outline);
+        break;
+      case "Details":
+        setCurrentData(data.details);
+        break;
+      default:
+        setCurrentData([]);
+        break;
+    }
+  }, [selectedOption]);
+
+  const handlePosterSelect = (item: any) => {
+    setSelectedPoster(item);
+    setSelectedImage(item.image);
   };
+
+  const handleBackgroundSelect = (item: any) => {
+    setSelectedBackground(item);
+    setSelectedImage(item.image);
+    setSelectedBorderStyle(item.borderStyle || "none");
+  };
+
+  const handleGraphicsSelect = (item: any) => {
+    setSelectedGraphics(item);
+    setSelectedImage(item.image);
+    setSelectedBorderStyle(item.borderStyle || "none");
+  };
+
+  const handleLogoPositionSelect = (item: any) => {
+    setSelectedLogoPosition(item);
+    setSelectedBorderStyle(item.borderStyle || "none");
+  };
+
+  const handleDetailSelect = (item: DetailItem) => {
+    setSelectedDetail(item);
+  };
+
+  const handleOutlineSelect = (item: any) => {
+    setSelectedOutline(item);
+    setSelectedBorderStyle(item.borderStyle || "none");
+  };
+
   const handleOptionPress = () => {
     const currentIndex = options.findIndex(
       (opt) => opt.id === selectedOption.id
@@ -115,10 +247,6 @@ const CreatePosterScreen = ({ route }: any) => {
   const scrollToIndex = (index: number) => {
     flatListRef.current?.scrollToIndex({ animated: true, index });
   };
-
-  const numColumns = 4;
-  const itemWidth = (deviceWidth - 5 * perfectSize(10)) / numColumns;
-  const itemHeight = perfectSize(81);
 
   const renderOptionItem = ({ item }: { item: Option }) => (
     <TouchableOpacity
@@ -143,7 +271,7 @@ const CreatePosterScreen = ({ route }: any) => {
   );
 
   const renderPosterImage = ({ item }: { item: any }) => (
-    <PosterImage
+    <PosterTheme
       festival={item}
       isSelected={selectedPoster?.id === item.id}
       onPress={() => handlePosterSelect(item)}
@@ -155,41 +283,105 @@ const CreatePosterScreen = ({ route }: any) => {
     />
   );
 
-  const renderBackground = () => (
-    <Block flex={false}>
-      <Text>Background</Text>
-    </Block>
+  const renderBackgroundImage = ({ item }: { item: any }) => (
+    <PosterTheme
+      festival={item}
+      isSelected={selectedBackground?.id === item.id}
+      onPress={() => handleBackgroundSelect(item)}
+      imageExtraStye={{
+        width: itemWidth,
+        height: itemHeight,
+        marginLeft: perfectSize(10),
+      }}
+    />
   );
 
-  const renderGraphics = () => (
-    <Block flex={false}>
-      <Text>Graphics</Text>
-    </Block>
+  const renderGraphicsImage = ({ item }: { item: any }) => (
+    <PosterTheme
+      festival={item}
+      isSelected={selectedGraphics?.id === item.id}
+      onPress={() => handleGraphicsSelect(item)}
+      imageExtraStye={{
+        width: itemWidth,
+        height: itemHeight,
+        marginLeft: perfectSize(10),
+      }}
+    />
   );
 
-  const renderLogoPosition = () => (
-    <Block flex={false}>
-      <Text>Logo-Position</Text>
-    </Block>
+  const renderLogoPositionImage = ({ item }: { item: any }) => (
+    <PosterLogoPosition
+      festival={item}
+      isLogoText={true}
+      isSelected={selectedLogoPosition?.id === item.id}
+      onPress={() => handleLogoPositionSelect(item)}
+      imageExtraStye={{
+        width: itemWidth,
+        height: 81,
+        marginLeft: perfectSize(10),
+      }}
+    />
+  );
+  const renderLogoOutlineImage = ({ item }: { item: any }) => (
+    <PosterLogoPosition
+      festival={item}
+      isLogoText={false}
+      isSelected={selectedOutline?.id === item.id}
+      onPress={() => handleOutlineSelect(item)}
+      borderStyle={item.borderStyle}
+      imageExtraStye={{
+        width: itemWidth,
+        height: 81,
+        marginLeft: perfectSize(10),
+        paddingVertical: perfectSize(10),
+      }}
+    />
   );
 
-  const renderFont = () => (
-    <Block flex={false}>
-      <Text>Font</Text>
-    </Block>
+  const renderDetailImage = ({ item }: { item: any }) => (
+    <PosterDetails
+      festival={item}
+      isLogoText={false}
+      isSelected={selectedDetail?.id === item.id}
+      onPress={() => handleDetailSelect(item)}
+      imageExtraStye={{
+        width: itemWidth,
+        height: 49,
+        marginLeft: perfectSize(10),
+        paddingVertical: perfectSize(10),
+      }}
+    />
   );
 
-  const renderOutline = () => (
-    <Block flex={false}>
-      <Text>Outline</Text>
-    </Block>
-  );
+  const renderItem = ({ item }: { item: any }) => {
+    if (selectedOption.title === "Theme") {
+      return renderPosterImage({ item });
+    } else if (selectedOption.title === "Background") {
+      return renderBackgroundImage({ item });
+    } else if (selectedOption.title === "Graphics") {
+      return renderGraphicsImage({ item });
+    } else if (selectedOption.title === "Logo-Position") {
+      return renderLogoPositionImage({ item });
+    } else if (selectedOption.title === "Font") {
+      return <PosterFont />;
+    } else if (selectedOption.title === "Outline") {
+      return renderLogoOutlineImage({ item });
+    } else if (selectedOption.title === "Details") {
+      return renderDetailImage({ item });
+    }
+    return null;
+  };
 
-  const renderDetails = () => (
-    <Block flex={false}>
-      <Text>Details</Text>
-    </Block>
-  );
+  // selectedOption.title === "Logo-Position" ? 3 :
+  // console.log(
+  //   "selectedOption.title =========",
+  //   selectedOption.title === "Logo-Position" ? 3 : 4
+  // );
+
+  const numColumns = 4;
+  const itemWidth =
+    (deviceWidth - (numColumns + 1) * perfectSize(10)) / numColumns;
+  const itemHeight = perfectSize(81);
 
   return (
     <Block flex={1} style={styles.container}>
@@ -223,7 +415,16 @@ const CreatePosterScreen = ({ route }: any) => {
           radius={perfectSize(20)}
           style={styles.imageContainer}
         >
-          <Image source={item?.image} style={styles.image} />
+          <Image
+            source={selectedImage}
+            style={[
+              styles.image,
+              {
+                borderWidth: selectedBorderStyle === "none" ? 0 : 6,
+                borderColor: color.BLACK, 
+              },
+            ]}
+          />
         </Block>
         <Block flex={1}>
           <Block flex={false}>
@@ -247,21 +448,17 @@ const CreatePosterScreen = ({ route }: any) => {
               perfectSize(0),
             ]}
           >
-            {selectedOption.title === "Theme" && (
+            {selectedOption.title !== "Font" ? (
               <FlatList
-                data={theme}
+                data={currentData}
                 showsVerticalScrollIndicator={false}
-                renderItem={renderPosterImage}
+                renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
-                numColumns={numColumns}
+                numColumns={4}
               />
+            ) : (
+              <PosterFont />
             )}
-            {selectedOption.title === "Background" && renderBackground()}
-            {selectedOption.title === "Graphics" && renderGraphics()}
-            {selectedOption.title === "Logo-Position" && renderLogoPosition()}
-            {selectedOption.title === "Font" && renderFont()}
-            {selectedOption.title === "Outline" && renderOutline()}
-            {selectedOption.title === "Details" && renderDetails()}
           </Block>
         </Block>
       </Block>
