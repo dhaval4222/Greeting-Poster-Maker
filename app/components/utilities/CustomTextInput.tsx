@@ -10,7 +10,7 @@ import CountryPicker, {
   DEFAULT_THEME,
 } from "react-native-country-picker-modal";
 import Block from "./Block";
-import {  font, perfectSize } from "../../styles/theme";
+import { font, perfectSize } from "../../styles/theme";
 import { responsiveScale } from "../../styles/mixins";
 import { color } from "../../config/color";
 
@@ -80,25 +80,25 @@ export default function CustomTextInput({
 
       {countryCode && (
         <View style={styles.countryModalWrapper}>
-        <CountryPicker
-          {...{
-            withFilter: true,
-            withFlag: true,
-            withCountryNameButton: true,
-            withAlphaFilter: true,
-            withCallingCode: true,
-            withEmoji: true,
-          }}
-          visible={isCountryPickerVisible}
-          onSelect={country => {
-            handleCountrySelect(country);
-          }}
-          theme={DEFAULT_THEME}
-          onClose={() => {
-            setCountryPickerVisible(false);
-          }}
-        />
-      </View>
+          <CountryPicker
+            {...{
+              withFilter: true,
+              withFlag: true,
+              withCountryNameButton: true,
+              withAlphaFilter: true,
+              withCallingCode: true,
+              withEmoji: true,
+            }}
+            visible={isCountryPickerVisible}
+            onSelect={(country) => {
+              handleCountrySelect(country);
+            }}
+            theme={DEFAULT_THEME}
+            onClose={() => {
+              setCountryPickerVisible(false);
+            }}
+          />
+        </View>
       )}
     </Block>
   );
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     width: "100%",
     height: perfectSize(50),
+    flex: 1,
   },
   itemTitle: {
     fontSize: responsiveScale(16),
@@ -134,6 +135,6 @@ const styles = StyleSheet.create({
     height: 0,
     width: 0,
     opacity: 0,
-    position: 'absolute',
+    position: "absolute",
   },
 });

@@ -12,8 +12,16 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { image } from "../../../utils/Images";
 import Text from "../../../components/utilities/Text";
 import ImagePicker from "react-native-image-crop-picker";
-
-const PersonalFrameScreen = ({ route }: any) => {
+import firestore from "@react-native-firebase/firestore";
+import DeviceInfo from "react-native-device-info";
+import Toast from "react-native-toast-message";
+import {
+  frameCollection,
+  mainCollection,
+  validateEmail,
+} from "../../../constants/globalFunctions";
+import { useSelector } from "react-redux";
+const PersonalFrameScreen = ({ route, navigation }: any) => {
   const { bottom } = useSafeAreaInsets();
   const [yourName, setYourName] = useState("");
   const [occupation, setOccupation] = useState("");
@@ -21,21 +29,97 @@ const PersonalFrameScreen = ({ route }: any) => {
   const [email, setEmail] = useState("");
   const [logoUri, setLogoUri] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
+  const [sourceUrl, setSourceUrl] = useState("");
   const personalframeData = route.params?.personalframeData;
-
+  const deviceId = useSelector((state: any) => state.auth?.deviceId ?? "");
   useEffect(() => {
     if (personalframeData) {
-      setYourName(personalframeData.name);
-      setContactNumber(personalframeData.phone);
-      setEmail(personalframeData.email);
-      setLogoUri(personalframeData.image);
+      setYourName(personalframeData?.data?.personalName);
+      setOccupation(personalframeData?.data?.occupation);
+      setContactNumber(personalframeData?.data?.contactNumber);
+      setCountryCode(personalframeData?.data?.countryCode);
+      setEmail(personalframeData?.data?.email);
+      setLogoUri(personalframeData?.data?.companyLogo);
+      setSourceUrl(personalframeData?.data?.companyLogo);
     }
   }, []);
   const handleSave = () => {
-    if (personalframeData) {
-      console.log("Update data");
+    if (yourName === "") {
+      Toast.show({
+        type: "error",
+        text1: "Required Field",
+        text2: "Please Enter Name",
+      });
+    } else if (occupation === "") {
+      Toast.show({
+        type: "error",
+        text1: "Required Field",
+        text2: "Please Enter occupation",
+      });
+    } else if (contactNumber === "") {
+      Toast.show({
+        type: "error",
+        text1: "Required Field",
+        text2: "Please Enter contact number",
+      });
+    } else if (email === "") {
+      Toast.show({
+        type: "error",
+        text1: "Required Field",
+        text2: "Please Enter Email address",
+      });
+    } else if (!validateEmail(email)) {
+      Toast.show({
+        type: "error",
+        text1: "Required Field",
+        text2: "Please Enter valid Email",
+      });
+    } else if (sourceUrl === "") {
+      Toast.show({
+        type: "error",
+        text1: "Required Field",
+        text2: "Please Add Logo",
+      });
     } else {
-      console.log("Save data");
+      if (personalframeData) {
+        const data = {
+          personalName: yourName,
+          countryCode: countryCode,
+          contactNumber: contactNumber,
+          email: email,
+          companyLogo: sourceUrl,
+          occupation: occupation,
+          type: "Personal",
+        };
+        firestore()
+          .collection(mainCollection)
+          .doc(deviceId)
+          .collection(frameCollection)
+          .doc(personalframeData?.id)
+          .update({
+            data,
+          });
+        navigation.goBack();
+      } else {
+        const data = {
+          personalName: yourName,
+          countryCode: countryCode,
+          contactNumber: contactNumber,
+          email: email,
+          companyLogo: sourceUrl,
+          occupation: occupation,
+          type: "Personal",
+        };
+        firestore()
+          .collection(mainCollection)
+          .doc(deviceId)
+          .collection(frameCollection)
+          .doc()
+          .set({
+            data,
+          });
+        navigation.goBack();
+      }
     }
   };
   const handleSelectPhoto = () => {
@@ -45,6 +129,7 @@ const PersonalFrameScreen = ({ route }: any) => {
       cropping: true,
     })
       .then((image) => {
+        setSourceUrl(image.sourceURL);
         setLogoUri(image.path);
       })
       .catch((error) => {

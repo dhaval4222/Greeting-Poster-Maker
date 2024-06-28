@@ -6,11 +6,13 @@ import Text from "../../../components/utilities/Text";
 import { color } from "../../../config/color";
 import { deviceWidth, font, perfectSize } from "../../../styles/theme";
 import { responsiveScale } from "../../../styles/mixins";
-import FestivalCard from "../../../components/festivalCard/FestivalCard";
+import FestivalCard from "../../../components/FestivalCard/FestivalCard";
 import Block from "../../../components/utilities/Block";
 import { image } from "../../../utils/Images";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import DeviceInfo from "react-native-device-info";
+import { useDispatch } from "react-redux";
+import { setDeviceIdAction } from "../../../store/auth";
 const festivalsData = {
   today: [
     {
@@ -103,9 +105,12 @@ const festivalsData = {
 const Home = ({ navigation }: any) => {
   const itemWidth = (deviceWidth - 4 * 10) / 3;
   const secondItemWidth = (deviceWidth - 4 * 17) / 3;
-
+  const dispatch = useDispatch();
   useEffect(() => {
     SplashScreen.hide();
+    DeviceInfo.getUniqueId().then((uniqueId: any) => {
+      dispatch(setDeviceIdAction(uniqueId));
+    });
   }, []);
 
   return (

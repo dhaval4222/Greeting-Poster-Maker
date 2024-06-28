@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -15,7 +15,15 @@ import { font, perfectSize } from "../../../styles/theme";
 import { image } from "../../../utils/Images";
 import Button from "../../../components/utilities/Button";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import firestore from "@react-native-firebase/firestore";
+import DeviceInfo from "react-native-device-info";
+import {
+  frameCollection,
+  mainCollection,
+} from "../../../constants/globalFunctions";
+import { setFrameDataAction } from "../../../store/auth";
 const FrameScreen = ({ navigation }: any) => {
   const initialBusinessData = [
     {
@@ -54,12 +62,19 @@ const FrameScreen = ({ navigation }: any) => {
       address: "Personal Address 2",
     },
   ];
-
+  const frameData = useSelector((state) => state.auth?.frameData ?? "");
+  const deviceId = useSelector((state) => state.auth?.deviceId ?? "");
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const [isBusiness, setIsBusiness] = useState(true);
   const { bottom } = useSafeAreaInsets();
   const [defaultItemId, setDefaultItemId] = useState(null);
-  const [businessData, setBusinessData] = useState(initialBusinessData);
-  const [personalData, setPersonalData] = useState(initialPersonalData);
+  const [businessData, setBusinessData] = useState(
+    frameData.filter((item: any) => item.data.type === "Business")
+  );
+  const [personalData, setPersonalData] = useState(
+    frameData.filter((item: any) => item?.data?.type === "Personal")
+  );
   const handleCreateFrame = () => {
     if (isBusiness) {
       navigation.navigate("BusinessFrameScreen");
@@ -90,13 +105,23 @@ const FrameScreen = ({ navigation }: any) => {
           text: "Delete",
           style: "destructive",
           onPress: () => {
+            firestore()
+              .collection(mainCollection)
+              .doc(deviceId)
+              .collection(frameCollection)
+              .doc(item?.id)
+              .delete()
+              .then(() => {
+                console.log("delete sucessfull");
+              })
+              .catch((err) => {});
             if (isBusiness) {
-              setBusinessData((prevData) =>
-                prevData.filter((data) => data.id !== item.id)
+              setBusinessData((prevData: any) =>
+                prevData.filter((data: any) => data?.id !== item.id)
               );
             } else {
-              setPersonalData((prevData) =>
-                prevData.filter((data) => data.id !== item.id)
+              setPersonalData((prevData: any) =>
+                prevData.filter((data: any) => data?.id !== item.id)
               );
             }
           },
@@ -105,112 +130,134 @@ const FrameScreen = ({ navigation }: any) => {
       { cancelable: true }
     );
   };
+
+  useEffect(() => {
+    if (isFocused) {
+      getFrameData();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    setBusinessData(
+      frameData.filter((item: any) => item.data.type === "Business")
+    );
+    setPersonalData(
+      frameData.filter((item: any) => item.data.type === "Personal")
+    );
+  }, [frameData]);
+
+  const getFrameData = async () => {
+    const clientsCollection = await firestore()
+      .collection(mainCollection)
+      .doc(deviceId)
+      .collection(frameCollection)
+      .get();
+    const clientsList = clientsCollection.docs.map((doc) => ({
+      id: doc?.id,
+      ...doc.data(),
+    }));
+    dispatch(setFrameDataAction(clientsList));
+  };
   const handleSetDefault = (item: any) => {
     setDefaultItemId(item.id);
   };
-  const renderItem = ({
-    item,
-  }: {
-    item: {
-      id: number;
-      image: any;
-      name: string;
-      email: string;
-      phone: string;
-      address: string;
-    };
-  }) => (
-    <Block flex={false} style={styles.itemContainer}>
-      <Block flex={false} width={"32%"}>
-        <Image source={item.image} style={styles.imageView} />
-
-        <Block
-          flex={false}
-          margin={[
-            perfectSize(5),
-            perfectSize(10),
-            perfectSize(5),
-            perfectSize(0),
-          ]}
-          width={84}
-        >
-          <Text medium caption center color={color.BLUE} key={item.id}>
-            {item.name}
-          </Text>
-        </Block>
-      </Block>
-      <Block flex={false} style={styles.line} />
-      <Block
-        flex={1}
-        margin={[
-          perfectSize(5),
-          perfectSize(0),
-          perfectSize(0),
-          perfectSize(20),
-        ]}
-      >
-        <Text
-          regular
-          body
-          color={color.GRAY_DARK_TEXT}
-          adjustsFontSizeToFit={true}
-          numberOfLines={1}
-        >
-          {item.phone}
-        </Text>
-        <Block
-          flex={false}
-          margin={[
-            perfectSize(5),
-            perfectSize(0),
-            perfectSize(5),
-            perfectSize(0),
-          ]}
-        >
-          <Text regular body color={color.GRAY_DARK_TEXT} numberOfLines={1}>
-            {item.email}
-          </Text>
-        </Block>
-
-        <Text regular body color={color.GRAY_DARK_TEXT}>
-          {item.address}
-        </Text>
-        <Block
-          flex={false}
-          row
-          between
-          margin={[
-            perfectSize(12),
-            perfectSize(0),
-            perfectSize(5),
-            perfectSize(0),
-          ]}
-        >
-          <TouchableOpacity onPress={() => handleEdit(item)}>
-            {image.editIcon}
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDelete(item)}>
-            {image.deleteIcon}
-          </TouchableOpacity>
-
-          <Button
-            name={item.id === defaultItemId ? "Set as Default" : "Default"}
-            onPress={() => handleSetDefault(item)}
-            extraBtnViewStyle={{
-              height: perfectSize(20),
-              width: "40%",
-            }}
-            extraBtnTextStyle={{
-              fontFamily: font.regular,
-              fontSize: perfectSize(9),
-              color: color.WHITE,
-            }}
-            disabled={false}
+  const renderItem = ({ item }: any) => {
+    return (
+      <Block flex={false} style={styles.itemContainer}>
+        <Block flex={false} width={"32%"}>
+          <Image
+            source={{ uri: item?.data?.companyLogo }}
+            style={styles.imageView}
           />
+
+          <Block
+            flex={false}
+            margin={[
+              perfectSize(5),
+              perfectSize(10),
+              perfectSize(5),
+              perfectSize(0),
+            ]}
+            width={84}
+          >
+            <Text medium caption center color={color.BLUE} key={item.id}>
+              {isBusiness ? item?.data?.companyName : item?.data?.personalName}
+            </Text>
+          </Block>
+        </Block>
+        <Block flex={false} style={styles.line} />
+        <Block
+          flex={1}
+          margin={[
+            perfectSize(5),
+            perfectSize(0),
+            perfectSize(0),
+            perfectSize(20),
+          ]}
+        >
+          <Text
+            regular
+            body
+            color={color.GRAY_DARK_TEXT}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            {item?.data?.countryCode + item?.data?.contactNumber}
+          </Text>
+          <Block
+            flex={false}
+            margin={[
+              perfectSize(5),
+              perfectSize(0),
+              perfectSize(5),
+              perfectSize(0),
+            ]}
+          >
+            <Text regular body color={color.GRAY_DARK_TEXT} numberOfLines={1}>
+              {item?.data?.email}
+            </Text>
+          </Block>
+
+          <Text regular body color={color.GRAY_DARK_TEXT}>
+            {isBusiness ? item?.data?.address : item?.data?.occupation}
+          </Text>
+          <Block
+            flex={false}
+            row
+            between
+            margin={[
+              perfectSize(12),
+              perfectSize(0),
+              perfectSize(5),
+              perfectSize(0),
+            ]}
+          >
+            <TouchableOpacity onPress={() => handleEdit(item)}>
+              {image.editIcon}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleDelete(item)}>
+              {image.deleteIcon}
+            </TouchableOpacity>
+
+            <Button
+              name={item.id === defaultItemId ? "Set as Default" : "Default"}
+              onPress={() => handleSetDefault(item)}
+              extraBtnViewStyle={{
+                height: perfectSize(20),
+                width: "40%",
+              }}
+              extraBtnTextStyle={{
+                fontFamily: font.regular,
+                fontSize: perfectSize(9),
+                color: color.WHITE,
+              }}
+              disabled={false}
+            />
+          </Block>
         </Block>
       </Block>
-    </Block>
-  );
+    );
+  };
 
   return (
     <Block flex={1} style={styles.container}>
@@ -255,7 +302,7 @@ const FrameScreen = ({ navigation }: any) => {
           </Text>
         </TouchableOpacity>
       </Block>
-      {dataToShow.length > 0 ? (
+      {dataToShow?.length > 0 ? (
         <FlatList
           data={dataToShow}
           renderItem={renderItem}
