@@ -10,6 +10,7 @@ import PosterTheme from "../../../components/createPoster/PosterTheme";
 import PosterLogoPosition from "../../../components/createPoster/PosterLogoPosition";
 import PosterFont from "../../../components/createPoster/PosterFont";
 import PosterDetails from "../../../components/createPoster/PosterDetails";
+import { useSelector } from "react-redux";
 
 interface Option {
   id: number;
@@ -30,14 +31,14 @@ const CreatePosterScreen = ({ route }: any) => {
 
   const data = {
     theme: [
-      { id: 1, image: require("../../../assets/appImages/GreetPoster.png") },
-      { id: 2, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
-      { id: 3, image: require("../../../assets/appImages/GreetPoster.png") },
-      { id: 4, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
-      { id: 5, image: require("../../../assets/appImages/GreetPoster.png") },
-      { id: 6, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
-      { id: 7, image: require("../../../assets/appImages/GreetPoster.png") },
-      { id: 8, image: require("../../../assets/appImages/GuruPurnimaImg.png") },
+      { id: 1, image: require("../../../assets/appImages/ThemePoster.png") },
+      { id: 2, image: require("../../../assets/appImages/ThemePoster.png") },
+      { id: 3, image: require("../../../assets/appImages/ThemePoster.png") },
+      { id: 4, image: require("../../../assets/appImages/ThemePoster.png") },
+      { id: 5, image: require("../../../assets/appImages/ThemePoster.png") },
+      { id: 6, image: require("../../../assets/appImages/ThemePoster.png") },
+      { id: 7, image: require("../../../assets/appImages/ThemePoster.png") },
+      { id: 8, image: require("../../../assets/appImages/ThemePoster.png") },
     ],
     background: [
       {
@@ -46,42 +47,22 @@ const CreatePosterScreen = ({ route }: any) => {
       },
       {
         id: 2,
-        image: require("../../../assets/appImages/BackgroundImage.png"),
+        image: require("../../../assets/appImages/BackgroundImage1.png"),
       },
       {
         id: 3,
-        image: require("../../../assets/appImages/BackgroundImage.png"),
+        image: require("../../../assets/appImages/BackgroundImage2.png"),
       },
       {
         id: 4,
-        image: require("../../../assets/appImages/BackgroundImage.png"),
-      },
-      {
-        id: 5,
-        image: require("../../../assets/appImages/BackgroundImage.png"),
-      },
-      {
-        id: 6,
-        image: require("../../../assets/appImages/BackgroundImage.png"),
-      },
-      {
-        id: 7,
-        image: require("../../../assets/appImages/BackgroundImage.png"),
-      },
-      {
-        id: 8,
-        image: require("../../../assets/appImages/BackgroundImage.png"),
+        image: require("../../../assets/appImages/BackgroundImage3.png"),
       },
     ],
     graphics: [
-      { id: 1, image: require("../../../assets/appImages/GraphicsImg.png") },
-      { id: 2, image: require("../../../assets/appImages/GraphicsImg.png") },
-      { id: 3, image: require("../../../assets/appImages/GraphicsImg.png") },
-      { id: 4, image: require("../../../assets/appImages/GraphicsImg.png") },
-      { id: 5, image: require("../../../assets/appImages/GraphicsImg.png") },
-      { id: 6, image: require("../../../assets/appImages/GraphicsImg.png") },
-      { id: 7, image: require("../../../assets/appImages/GraphicsImg.png") },
-      { id: 8, image: require("../../../assets/appImages/GraphicsImg.png") },
+      { id: 1, image: require("../../../assets/appImages/GraphicsImg1.png") },
+      { id: 2, image: require("../../../assets/appImages/GraphicsImg2.png") },
+      { id: 3, image: require("../../../assets/appImages/GraphicsImg3.png") },
+      { id: 4, image: require("../../../assets/appImages/GraphicsImg4.png") },
     ],
     logoPosition: [
       {
@@ -116,10 +97,10 @@ const CreatePosterScreen = ({ route }: any) => {
       },
     ],
     outline: [
-      { id: 1, borderStyle: "solid" },
+      { id: 1, borderStyle: "none" },
       { id: 2, borderStyle: "dotted" },
       { id: 3, borderStyle: "dashed" },
-      { id: 4, borderStyle: "none" },
+      { id: 4, borderStyle: "solid" },
     ],
 
     details: [
@@ -131,27 +112,27 @@ const CreatePosterScreen = ({ route }: any) => {
       {
         id: 2,
         name: "Mobile",
-        image: require("../../../assets/appImages/UserIcon.png"),
+        image: require("../../../assets/appImages/MobileIcon.png"),
       },
       {
         id: 3,
         name: "Email",
-        image: require("../../../assets/appImages/UserIcon.png"),
+        image: require("../../../assets/appImages/EmailIcon.png"),
       },
       {
         id: 4,
         name: "Logo",
-        image: require("../../../assets/appImages/UserIcon.png"),
+        image: require("../../../assets/appImages/LogoIcon.png"),
       },
       {
         id: 5,
         name: "Address",
-        image: require("../../../assets/appImages/UserIcon.png"),
+        image: require("../../../assets/appImages/AddressIcon.png"),
       },
       {
         id: 6,
         name: "Website",
-        image: require("../../../assets/appImages/UserIcon.png"),
+        image: require("../../../assets/appImages/WebsiteIcon.png"),
       },
     ],
   };
@@ -162,16 +143,18 @@ const CreatePosterScreen = ({ route }: any) => {
   const [selectedBackground, setSelectedBackground] = useState(
     data.background[0]
   );
-  const [selectedGraphics, setSelectedGraphics] = useState(data.graphics[0]);
+  const [selectedGraphics, setSelectedGraphics] = useState();
+
   const [selectedLogoPosition, setSelectedLogoPosition] = useState(
     data.logoPosition[0]
   );
   const [selectedDetail, setSelectedDetail] = useState(data.details[0]);
   const [selectedOutline, setSelectedOutline] = useState(data.outline[0]);
-
   const [currentData, setCurrentData] = useState(data.theme);
-  const [selectedImage, setSelectedImage] = useState(item?.image);
+  const [selectedImage, setSelectedImage] = useState();
   const [selectedBorderStyle, setSelectedBorderStyle] = useState("none");
+
+  const frameData = useSelector((state: any) => state.auth?.frameData ?? "");
 
   const flatListRef = useRef<FlatList<Option>>(null);
 
@@ -204,6 +187,11 @@ const CreatePosterScreen = ({ route }: any) => {
     }
   }, [selectedOption]);
 
+  useEffect(() => {
+    // setSelectedGraphics(null);
+    setSelectedBackground(data.background[0]);
+  }, [selectedOption]);
+
   const handlePosterSelect = (item: any) => {
     setSelectedPoster(item);
     setSelectedImage(item.image);
@@ -212,18 +200,15 @@ const CreatePosterScreen = ({ route }: any) => {
   const handleBackgroundSelect = (item: any) => {
     setSelectedBackground(item);
     setSelectedImage(item.image);
-    setSelectedBorderStyle(item.borderStyle || "none");
   };
 
   const handleGraphicsSelect = (item: any) => {
     setSelectedGraphics(item);
     setSelectedImage(item.image);
-    setSelectedBorderStyle(item.borderStyle || "none");
   };
 
   const handleLogoPositionSelect = (item: any) => {
     setSelectedLogoPosition(item);
-    setSelectedBorderStyle(item.borderStyle || "none");
   };
 
   const handleDetailSelect = (item: DetailItem) => {
@@ -232,7 +217,7 @@ const CreatePosterScreen = ({ route }: any) => {
 
   const handleOutlineSelect = (item: any) => {
     setSelectedOutline(item);
-    setSelectedBorderStyle(item.borderStyle || "none");
+    setSelectedBorderStyle(item.borderStyle);
   };
 
   const handleOptionPress = () => {
@@ -345,10 +330,7 @@ const CreatePosterScreen = ({ route }: any) => {
       isSelected={selectedDetail?.id === item.id}
       onPress={() => handleDetailSelect(item)}
       imageExtraStye={{
-        width: itemWidth,
-        height: 49,
         marginLeft: perfectSize(10),
-        paddingVertical: perfectSize(10),
       }}
     />
   );
@@ -372,12 +354,33 @@ const CreatePosterScreen = ({ route }: any) => {
     return null;
   };
 
-  // selectedOption.title === "Logo-Position" ? 3 :
-  // console.log(
-  //   "selectedOption.title =========",
-  //   selectedOption.title === "Logo-Position" ? 3 : 4
-  // );
-
+  const LogoIcon = ({ positionStyle }: any) => (
+    <Block flex={false} style={[styles.logo, positionStyle]}>
+      <Image
+        source={{ uri: frameData[0]?.data?.companyLogo }}
+        style={styles.logoIcon}
+        resizeMode="cover"
+      />
+    </Block>
+  );
+  const getLogoPositionStyle = () => {
+    switch (selectedLogoPosition.position) {
+      case "Top-left":
+        return { top: perfectSize(10), left: perfectSize(10) };
+      case "Top-center":
+        return { top: perfectSize(10), alignSelf: "center" };
+      case "Top-right":
+        return { top: perfectSize(10), right: perfectSize(10) };
+      case "Bottom-left":
+        return { bottom: perfectSize(10), left: perfectSize(10) };
+      case "Bottom-center":
+        return { bottom: perfectSize(10), alignSelf: "center" };
+      case "Bottom-right":
+        return { bottom: perfectSize(10), right: perfectSize(10) };
+      default:
+        return {};
+    }
+  };
   const numColumns = 4;
   const itemWidth =
     (deviceWidth - (numColumns + 1) * perfectSize(10)) / numColumns;
@@ -415,17 +418,53 @@ const CreatePosterScreen = ({ route }: any) => {
           radius={perfectSize(20)}
           style={styles.imageContainer}
         >
-          <Image
-            source={selectedImage}
-            style={[
-              styles.image,
-              {
-                borderWidth: selectedBorderStyle === "none" ? 0 : 6,
-                borderColor: color.BLACK, 
-              },
-            ]}
-          />
+          <Block style={styles.image}>
+            <Image
+              // source={
+              //   selectedOption.title === "Graphics"
+              //     ? null
+              //     : selectedOption.title === "Background"
+              //     ? selectedBackground.image
+              //     : selectedImage
+              // }
+              source={
+                selectedOption.title === "Background"
+                  ? selectedBackground.image
+                  : selectedOption.title === "Theme"
+                  ? selectedPoster.image
+                  : // : selectedOption.title === "Graphics"
+                    // ? selectedGraphics?.image
+                    null // Handle the case where none of the conditions match
+              }
+              style={[styles.image]}
+            />
+            {console.log(
+              "selectedGraphics",
+              selectedGraphics,
+              selectedOption.title === "Theme"
+            )}
+            {selectedOption.title === "Theme" ||
+              (selectedGraphics && (
+                <Image
+                  source={selectedGraphics.image}
+                  style={styles.graphicsImageStyle}
+                />
+              ))}
+          </Block>
+          {selectedBorderStyle !== "none" && (
+            <Block
+              flex={false}
+              style={[
+                styles.borderView,
+                {
+                  borderStyle: selectedBorderStyle,
+                },
+              ]}
+            ></Block>
+          )}
+          <LogoIcon positionStyle={getLogoPositionStyle()} />
         </Block>
+
         <Block flex={1}>
           <Block flex={false}>
             <FlatList
@@ -495,6 +534,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     resizeMode: "cover",
+    position: "absolute",
+    // padding: 10,
   },
   optionContainer: {
     paddingHorizontal: perfectSize(15),
@@ -507,6 +548,34 @@ const styles = StyleSheet.create({
   },
   selectedOption: {
     backgroundColor: color.BLUE,
+  },
+  logo: {
+    position: "absolute",
+    width: perfectSize(40),
+    height: perfectSize(40),
+    margin: perfectSize(10),
+  },
+  logoIcon: {
+    width: "100%",
+    height: "100%",
+  },
+  borderView: {
+    padding: 10,
+    height: "95%",
+    width: "95%",
+    zIndex: 1,
+    left: 8,
+    top: 8,
+    borderRadius: perfectSize(20),
+    borderColor: color.BLACK,
+    borderWidth: 1,
+  },
+  graphicsImageStyle: {
+    position: "absolute",
+    width: "65%",
+    height: "70%",
+    top: "15%",
+    left: "18%",
   },
 });
 

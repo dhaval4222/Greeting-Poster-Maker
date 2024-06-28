@@ -18,13 +18,13 @@ const PosterLogoPosition = ({
   const getBorderStyle = () => {
     switch (borderStyle) {
       case "none":
-        return { borderWidth: 1, borderStyle: "solid" };
+        return { borderWidth: 0};
       case "dotted":
         return { borderWidth: 1, borderStyle: "dotted" };
       case "dashed":
         return { borderWidth: 1, borderStyle: "dashed" };
       case "solid":
-        return { borderWidth: 0 };
+        return { borderWidth: 1, borderStyle: "solid" };
       default:
         return { borderWidth: 1, borderStyle: "solid" };
     }

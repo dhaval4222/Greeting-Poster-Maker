@@ -134,7 +134,7 @@ const Home = ({ navigation }: any) => {
           <Block flex={false}>
             <FlatList
               horizontal
-              data={festivalsData.today}
+              data={festivalsData?.today}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
                 <FestivalCard

@@ -13,10 +13,10 @@ const PosterDetails = ({
 }: any) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      <Block flex={false} style={styles.iconContainer}>
+      <Block flex={false} style={[styles.iconContainer,imageExtraStye]}>
         <Image
           source={festival?.image}
-          style={[styles.icon, imageExtraStye]}
+          style={[styles.icon]}
           resizeMode="contain"
         />
       </Block>
@@ -38,10 +38,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: perfectSize(5),
+    borderWidth: 1,
+    borderColor: color.BLUE,
+    height: perfectSize(49),
+    width: perfectSize(49),
+    borderRadius: perfectSize(50),
   },
   icon: {
-    width: perfectSize(49),
-    height: perfectSize(49),
+    width: perfectSize(20),
+    height: perfectSize(20),
+
   },
 });
 
