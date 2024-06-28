@@ -1,4 +1,4 @@
-package com.greeting_poster_maker
+package com.greetingpostermaker
 import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

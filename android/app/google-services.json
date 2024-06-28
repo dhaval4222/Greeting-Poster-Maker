@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "252463425458",
+    "project_id": "greetingpostermaker",
+    "storage_bucket": "greetingpostermaker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252463425458:android:965b80fdc2da0c43cea6ab",
+        "android_client_info": {
+          "package_name": "com.greetingpostermaker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvAXe1tIu_GWvFJh6xXop7M70RtVMUi5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
