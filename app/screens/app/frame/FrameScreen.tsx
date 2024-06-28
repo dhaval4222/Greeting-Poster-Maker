@@ -25,55 +25,18 @@ import {
 } from "../../../constants/globalFunctions";
 import { setFrameDataAction } from "../../../store/auth";
 const FrameScreen = ({ navigation }: any) => {
-  const initialBusinessData = [
-    {
-      id: 1,
-      image: require("../../../assets/appImages/LogoIcon.png"),
-      name: "Business Frame 1",
-      email: "business1@example.com",
-      phone: "+91 1234567890",
-      address: "Business Address 1",
-    },
-    {
-      id: 2,
-      image: require("../../../assets/appImages/LogoIcon.png"),
-      name: "Business Frame 2",
-      email: "business2@example.com",
-      phone: "+91 1234567890",
-      address: "Business Address 2",
-    },
-  ];
-
-  const initialPersonalData = [
-    {
-      id: 1,
-      image: require("../../../assets/appImages/LogoIcon.png"),
-      name: "Personal Frame 1",
-      email: "personal1@example.com",
-      phone: "+91 1234567890",
-      address: "Personal Address 1",
-    },
-    {
-      id: 2,
-      image: require("../../../assets/appImages/LogoIcon.png"),
-      name: "Personal Frame 2",
-      email: "personal2@example.com",
-      phone: "+91 1234567890",
-      address: "Personal Address 2",
-    },
-  ];
-  const frameData = useSelector((state) => state.auth?.frameData ?? "");
-  const deviceId = useSelector((state) => state.auth?.deviceId ?? "");
+  const frameData = useSelector((state: any) => state.auth?.frameData ?? []);
+  const deviceId = useSelector((state: any) => state.auth?.deviceId ?? "");
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [isBusiness, setIsBusiness] = useState(true);
   const { bottom } = useSafeAreaInsets();
   const [defaultItemId, setDefaultItemId] = useState(null);
   const [businessData, setBusinessData] = useState(
-    frameData.filter((item: any) => item.data.type === "Business")
+    frameData.filter((item: any) => item?.type === "Business")
   );
   const [personalData, setPersonalData] = useState(
-    frameData.filter((item: any) => item?.data?.type === "Personal")
+    frameData.filter((item: any) => item?.type === "Personal")
   );
   const handleCreateFrame = () => {
     if (isBusiness) {
@@ -138,12 +101,8 @@ const FrameScreen = ({ navigation }: any) => {
   }, [isFocused]);
 
   useEffect(() => {
-    setBusinessData(
-      frameData.filter((item: any) => item.data.type === "Business")
-    );
-    setPersonalData(
-      frameData.filter((item: any) => item.data.type === "Personal")
-    );
+    setBusinessData(frameData.filter((item: any) => item.type === "Business"));
+    setPersonalData(frameData.filter((item: any) => item.type === "Personal"));
   }, [frameData]);
 
   const getFrameData = async () => {
@@ -158,17 +117,42 @@ const FrameScreen = ({ navigation }: any) => {
     }));
     dispatch(setFrameDataAction(clientsList));
   };
-  const handleSetDefault = (item: any) => {
-    setDefaultItemId(item.id);
+  const updateField = async (fieldName: any, fieldValue: any, id: any) => {
+    try {
+      await firestore()
+        .collection(mainCollection)
+        .doc(deviceId)
+        .collection(frameCollection)
+        .doc(id)
+        .update({
+          [fieldName]: fieldValue,
+        });
+      console.log(`Document ${id} updated successfully`);
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  };
+  const handleSetDefault = async (item: any) => {
+    const selectedItem = frameData?.find(
+      (item: any) => item?.isDefault === true
+    );
+    updateField("isDefault", false, selectedItem?.id);
+    updateField("isDefault", true, item?.id);
+
+    getFrameData();
+    console.log("selectedItem", selectedItem);
   };
   const renderItem = ({ item }: any) => {
     return (
-      <Block flex={false} style={styles.itemContainer}>
+      <Block
+        flex={false}
+        style={[
+          styles.itemContainer,
+          { borderColor: item?.isDefault ? color.BLUE : color.GRAY_LINE },
+        ]}
+      >
         <Block flex={false} width={"32%"}>
-          <Image
-            source={{ uri: item?.data?.companyLogo }}
-            style={styles.imageView}
-          />
+          <Image source={{ uri: item?.companyLogo }} style={styles.imageView} />
 
           <Block
             flex={false}
@@ -181,7 +165,7 @@ const FrameScreen = ({ navigation }: any) => {
             width={84}
           >
             <Text medium caption center color={color.BLUE} key={item.id}>
-              {isBusiness ? item?.data?.companyName : item?.data?.personalName}
+              {isBusiness ? item?.companyName : item?.personalName}
             </Text>
           </Block>
         </Block>
@@ -202,7 +186,7 @@ const FrameScreen = ({ navigation }: any) => {
             adjustsFontSizeToFit={true}
             numberOfLines={1}
           >
-            {item?.data?.countryCode + item?.data?.contactNumber}
+            {item?.countryCode + item?.contactNumber}
           </Text>
           <Block
             flex={false}
@@ -214,12 +198,12 @@ const FrameScreen = ({ navigation }: any) => {
             ]}
           >
             <Text regular body color={color.GRAY_DARK_TEXT} numberOfLines={1}>
-              {item?.data?.email}
+              {item?.email}
             </Text>
           </Block>
 
           <Text regular body color={color.GRAY_DARK_TEXT}>
-            {isBusiness ? item?.data?.address : item?.data?.occupation}
+            {isBusiness ? item?.address : item?.occupation}
           </Text>
           <Block
             flex={false}
@@ -240,7 +224,7 @@ const FrameScreen = ({ navigation }: any) => {
             </TouchableOpacity>
 
             <Button
-              name={item.id === defaultItemId ? "Set as Default" : "Default"}
+              name={!item?.isDefault ? "Set as Default" : "Default"}
               onPress={() => handleSetDefault(item)}
               extraBtnViewStyle={{
                 height: perfectSize(20),
@@ -251,7 +235,7 @@ const FrameScreen = ({ navigation }: any) => {
                 fontSize: perfectSize(9),
                 color: color.WHITE,
               }}
-              disabled={false}
+              disabled={item?.data?.isDefault}
             />
           </Block>
         </Block>
@@ -316,7 +300,7 @@ const FrameScreen = ({ navigation }: any) => {
             size={responsiveScale(20)}
             medium
             center
-            color={color.GREY}
+            color={color.GRAY}
             style={styles.noFrameText}
           >
             No frames
@@ -363,7 +347,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: "row",
     borderWidth: perfectSize(2),
-    borderColor: color.BLUE,
+
     marginHorizontal: perfectSize(20),
     marginVertical: perfectSize(10),
     borderRadius: perfectSize(19),

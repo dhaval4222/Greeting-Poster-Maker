@@ -22,6 +22,7 @@ import {
 } from "../../../constants/globalFunctions";
 import { useSelector } from "react-redux";
 const PersonalFrameScreen = ({ route, navigation }: any) => {
+  const frameData = useSelector((state: any) => state.auth?.frameData ?? []);
   const { bottom } = useSafeAreaInsets();
   const [yourName, setYourName] = useState("");
   const [occupation, setOccupation] = useState("");
@@ -30,7 +31,9 @@ const PersonalFrameScreen = ({ route, navigation }: any) => {
   const [logoUri, setLogoUri] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
   const [sourceUrl, setSourceUrl] = useState("");
+  const [isDefault, setIsDefault] = useState(false);
   const personalframeData = route.params?.personalframeData;
+
   const deviceId = useSelector((state: any) => state.auth?.deviceId ?? "");
   useEffect(() => {
     if (personalframeData) {
@@ -41,6 +44,7 @@ const PersonalFrameScreen = ({ route, navigation }: any) => {
       setEmail(personalframeData?.data?.email);
       setLogoUri(personalframeData?.data?.companyLogo);
       setSourceUrl(personalframeData?.data?.companyLogo);
+      setIsDefault(personalframeData?.data?.isDefault);
     }
   }, []);
   const handleSave = () => {
@@ -90,17 +94,17 @@ const PersonalFrameScreen = ({ route, navigation }: any) => {
           companyLogo: sourceUrl,
           occupation: occupation,
           type: "Personal",
+          isDefault: isDefault,
         };
         firestore()
           .collection(mainCollection)
           .doc(deviceId)
           .collection(frameCollection)
           .doc(personalframeData?.id)
-          .update({
-            data,
-          });
+          .update(data);
         navigation.goBack();
       } else {
+        const isDefaultData = frameData?.length > 0 ? false : true;
         const data = {
           personalName: yourName,
           countryCode: countryCode,
@@ -109,15 +113,14 @@ const PersonalFrameScreen = ({ route, navigation }: any) => {
           companyLogo: sourceUrl,
           occupation: occupation,
           type: "Personal",
+          isDefault: isDefaultData,
         };
         firestore()
           .collection(mainCollection)
           .doc(deviceId)
           .collection(frameCollection)
           .doc()
-          .set({
-            data,
-          });
+          .set(data);
         navigation.goBack();
       }
     }

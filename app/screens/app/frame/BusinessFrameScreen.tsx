@@ -106,9 +106,7 @@ const BusinessFrameScreen = ({ route, navigation }: any) => {
           .doc(deviceId)
           .collection(frameCollection)
           .doc(businessframeData?.id)
-          .update({
-            data,
-          });
+          .update(data);
         navigation.goBack();
       } else {
         const data = {
@@ -127,9 +125,7 @@ const BusinessFrameScreen = ({ route, navigation }: any) => {
           .doc(deviceId)
           .collection(frameCollection)
           .doc()
-          .set({
-            data,
-          });
+          .set(data);
         navigation.goBack();
       }
     }
