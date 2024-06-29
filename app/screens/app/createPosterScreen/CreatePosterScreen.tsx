@@ -31,14 +31,46 @@ const CreatePosterScreen = ({ route }: any) => {
 
   const data = {
     theme: [
-      { id: 1, image: require("../../../assets/appImages/ThemePoster.png") },
-      { id: 2, image: require("../../../assets/appImages/ThemePoster.png") },
-      { id: 3, image: require("../../../assets/appImages/ThemePoster.png") },
-      { id: 4, image: require("../../../assets/appImages/ThemePoster.png") },
-      { id: 5, image: require("../../../assets/appImages/ThemePoster.png") },
-      { id: 6, image: require("../../../assets/appImages/ThemePoster.png") },
-      { id: 7, image: require("../../../assets/appImages/ThemePoster.png") },
-      { id: 8, image: require("../../../assets/appImages/ThemePoster.png") },
+      {
+        id: 1,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-left",
+      },
+      {
+        id: 2,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-center",
+      },
+      {
+        id: 3,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-right",
+      },
+      {
+        id: 4,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-center",
+      },
+      {
+        id: 5,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-center",
+      },
+      {
+        id: 6,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-right",
+      },
+      {
+        id: 7,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-right",
+      },
+      {
+        id: 8,
+        image: require("../../../assets/appImages/ThemePoster.png"),
+        position: "Top-center",
+      },
     ],
     background: [
       {
@@ -155,6 +187,8 @@ const CreatePosterScreen = ({ route }: any) => {
   const [selectedBorderStyle, setSelectedBorderStyle] = useState("none");
 
   const frameData = useSelector((state: any) => state.auth?.frameData ?? "");
+  const defaultData = frameData.filter((item: any) => item?.isDefault === true);
+  console.log("frameData----->", defaultData);
 
   const flatListRef = useRef<FlatList<Option>>(null);
 
@@ -355,14 +389,152 @@ const CreatePosterScreen = ({ route }: any) => {
   };
 
   const LogoIcon = ({ positionStyle }: any) => (
-    <Block flex={false} style={[styles.logo, positionStyle]}>
-      <Image
-        source={{ uri: frameData[0]?.data?.companyLogo }}
-        style={styles.logoIcon}
-        resizeMode="cover"
-      />
-    </Block>
+    <>
+      <Block flex={1} style={[styles.logo, positionStyle]}>
+        <Image
+          source={{ uri: defaultData[0]?.companyLogo }}
+          style={styles.logoIcon}
+          resizeMode="cover"
+        />
+      </Block>
+      <Block
+        flex={false}
+        row
+        wrap
+        style={{ position: "absolute", bottom: 20, left: 20, width: "90%" }}
+        center
+        middle
+      >
+        {defaultData[0]?.companyName && (
+          <Block
+            flex={false}
+            margin={[
+              perfectSize(0),
+              perfectSize(10),
+              perfectSize(0),
+              perfectSize(0),
+            ]}
+            row
+            center
+          >
+            <Block flex={false} style={styles.iconContainer} center middle>
+              <Image
+                source={require("../../../assets/appImages/UserIcon.png")}
+                style={[styles.icon]}
+                resizeMode="contain"
+              />
+            </Block>
+            <Text regular small color={color.DARK_GREY}>
+              {defaultData[0].companyName}
+            </Text>
+          </Block>
+        )}
+
+        {defaultData[0]?.contactNumber && (
+          <Block
+            flex={false}
+            row
+            center
+            margin={[
+              perfectSize(0),
+              perfectSize(10),
+              perfectSize(10),
+              perfectSize(0),
+            ]}
+          >
+            <Block flex={false} style={styles.iconContainer} center middle>
+              <Image
+                source={require("../../../assets/appImages/MobileIcon.png")}
+                style={[styles.icon]}
+                resizeMode="contain"
+              />
+            </Block>
+            <Text regular small color={color.DARK_GREY}>
+              {defaultData[0].contactNumber}
+            </Text>
+          </Block>
+        )}
+
+        {defaultData[0]?.email && (
+          <Block
+            flex={false}
+            margin={[
+              perfectSize(0),
+              perfectSize(10),
+              perfectSize(10),
+              perfectSize(0),
+            ]}
+            row
+            center
+          >
+            <Block flex={false} style={styles.iconContainer} center middle>
+              <Image
+                source={require("../../../assets/appImages/EmailIcon.png")}
+                style={[styles.icon]}
+                resizeMode="contain"
+              />
+            </Block>
+            <Text regular small color={color.DARK_GREY}>
+              {defaultData[0].email}
+            </Text>
+          </Block>
+        )}
+
+        {defaultData[0]?.address && (
+          <Block
+            flex={false}
+            margin={[
+              perfectSize(0),
+              perfectSize(10),
+              perfectSize(0),
+              perfectSize(0),
+            ]}
+            row
+            center
+          >
+            <Block flex={false} style={styles.iconContainer} center middle>
+              <Image
+                source={require("../../../assets/appImages/AddressIcon.png")}
+                style={[styles.icon]}
+                resizeMode="contain"
+                tintColor={color.BLUE}
+              />
+            </Block>
+            <Text regular small color={color.DARK_GREY}>
+              
+            </Text>
+          </Block>
+        )}
+
+        {defaultData[0]?.websiteUrl && (
+          <Block
+            flex={false}
+            margin={[
+              perfectSize(0),
+              perfectSize(10),
+              perfectSize(0),
+              perfectSize(0),
+            ]}
+            row
+            center
+          >
+            <Block flex={false} style={styles.iconContainer} center middle>
+              <Image
+                source={require("../../../assets/appImages/WebsiteIcon.png")}
+                style={[styles.icon]}
+                resizeMode="contain"
+                tintColor={color.BLUE}
+              />
+            </Block>
+            <Text regular small color={color.DARK_GREY}>
+              {defaultData[0].websiteUrl}
+            </Text>
+          </Block>
+        )}
+      </Block>
+    </>
   );
+
   const getLogoPositionStyle = () => {
     switch (selectedLogoPosition.position) {
       case "Top-left":
@@ -576,6 +748,19 @@ const styles = StyleSheet.create({
     height: "70%",
     top: "15%",
     left: "18%",
+  },
+  iconContainer: {
+    borderWidth: 1,
+    borderColor: color.BLUE,
+    height: perfectSize(25),
+    width: perfectSize(25),
+    borderRadius: perfectSize(50),
+    backgroundColor: color.WHITE,
+    marginRight: perfectSize(5),
+  },
+  icon: {
+    width: perfectSize(10),
+    height: perfectSize(10),
   },
 });
 

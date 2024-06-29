@@ -11,8 +11,10 @@ import Block from "../../../components/utilities/Block";
 import { image } from "../../../utils/Images";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DeviceInfo from "react-native-device-info";
-import { useDispatch } from "react-redux";
-import { setDeviceIdAction } from "../../../store/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { setDeviceIdAction, setFrameDataAction } from "../../../store/auth";
+import firestore from "@react-native-firebase/firestore";
+import { frameCollection, mainCollection } from "../../../constants/globalFunctions";
 const festivalsData = {
   today: [
     {
@@ -105,14 +107,28 @@ const festivalsData = {
 const Home = ({ navigation }: any) => {
   const itemWidth = (deviceWidth - 4 * 10) / 3;
   const secondItemWidth = (deviceWidth - 4 * 17) / 3;
+  const deviceId = useSelector((state: any) => state.auth?.deviceId ?? "");
   const dispatch = useDispatch();
   useEffect(() => {
     SplashScreen.hide();
+    getFrameData();
     DeviceInfo.getUniqueId().then((uniqueId: any) => {
       dispatch(setDeviceIdAction(uniqueId));
     });
   }, []);
 
+  const getFrameData = async () => {
+    const clientsCollection = await firestore()
+      .collection(mainCollection)
+      .doc(deviceId)
+      .collection(frameCollection)
+      .get();
+    const clientsList = clientsCollection.docs.map((doc) => ({
+      id: doc?.id,
+      ...doc.data(),
+    }));
+    dispatch(setFrameDataAction(clientsList));
+  };
   return (
     <Block flex={1} style={styles.container}>
       <CustomHeader title="Greeting Poster Maker" />

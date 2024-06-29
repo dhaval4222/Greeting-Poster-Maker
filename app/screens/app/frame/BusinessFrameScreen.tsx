@@ -15,6 +15,7 @@ import ImagePicker from "react-native-image-crop-picker";
 import firestore from "@react-native-firebase/firestore";
 import DeviceInfo from "react-native-device-info";
 import Toast from "react-native-toast-message";
+
 import {
   frameCollection,
   mainCollection,
@@ -32,8 +33,10 @@ const BusinessFrameScreen = ({ route, navigation }: any) => {
   const [logoUri, setLogoUri] = useState("");
   const [sourceUrl, setSourceUrl] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
+  const [isDefault, setIsDefault] = useState(false);
   const businessframeData = route?.params?.businessframeData;
   const deviceId = useSelector((state: any) => state.auth?.deviceId ?? "");
+  const frameData = useSelector((state: any) => state.auth?.frameData ?? []);
   useEffect(() => {
     if (businessframeData) {
       setCompanyName(businessframeData?.data?.companyName);
@@ -44,6 +47,7 @@ const BusinessFrameScreen = ({ route, navigation }: any) => {
       setLogoUri(businessframeData?.data?.companyLogo);
       setSourceUrl(businessframeData?.data?.companyLogo);
       setWebsiteUrl(businessframeData?.data?.websiteUrl);
+      setIsDefault(businessframeData?.data?.isDefault);
     }
   }, []);
   const handleSave = async () => {
@@ -100,6 +104,7 @@ const BusinessFrameScreen = ({ route, navigation }: any) => {
           address: address,
           companyLogo: sourceUrl,
           type: "Business",
+          isDefault: isDefault,
         };
         firestore()
           .collection(mainCollection)
@@ -109,6 +114,7 @@ const BusinessFrameScreen = ({ route, navigation }: any) => {
           .update(data);
         navigation.goBack();
       } else {
+        const isDefaultData = frameData?.length > 0 ? false : true;
         const data = {
           companyName: companyName,
           countryCode: countryCode,
@@ -118,6 +124,7 @@ const BusinessFrameScreen = ({ route, navigation }: any) => {
           address: address,
           companyLogo: sourceUrl,
           type: "Business",
+          isDefault: isDefaultData,
         };
 
         firestore()

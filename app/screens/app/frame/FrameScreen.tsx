@@ -45,7 +45,20 @@ const FrameScreen = ({ navigation }: any) => {
       navigation.navigate("PersonalFrameScreen");
     }
   };
-
+  const updateField = async (fieldName: any, fieldValue: any, id: any) => {
+    try {
+      await firestore()
+        .collection(mainCollection)
+        .doc(deviceId)
+        .collection(frameCollection)
+        .doc(id)
+        .update({
+          [fieldName]: fieldValue,
+        });
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  };
   const dataToShow = isBusiness ? businessData : personalData;
   const handleEdit = (item: any) => {
     if (isBusiness) {
@@ -75,9 +88,18 @@ const FrameScreen = ({ navigation }: any) => {
               .doc(item?.id)
               .delete()
               .then(() => {
-                console.log("delete sucessfull");
+                const dataArray = frameData.filter(
+                  (data: any) => data?.id !== item.id
+                );
+                if (item?.isDefault) {
+                  if (dataArray?.length > 0) {
+                    updateField("isDefault", true, dataArray[0]?.id);
+                  }
+                }
+                getFrameData();
               })
               .catch((err) => {});
+
             if (isBusiness) {
               setBusinessData((prevData: any) =>
                 prevData.filter((data: any) => data?.id !== item.id)
@@ -117,21 +139,7 @@ const FrameScreen = ({ navigation }: any) => {
     }));
     dispatch(setFrameDataAction(clientsList));
   };
-  const updateField = async (fieldName: any, fieldValue: any, id: any) => {
-    try {
-      await firestore()
-        .collection(mainCollection)
-        .doc(deviceId)
-        .collection(frameCollection)
-        .doc(id)
-        .update({
-          [fieldName]: fieldValue,
-        });
-      console.log(`Document ${id} updated successfully`);
-    } catch (error) {
-      console.error("Error updating document: ", error);
-    }
-  };
+
   const handleSetDefault = async (item: any) => {
     const selectedItem = frameData?.find(
       (item: any) => item?.isDefault === true
@@ -140,7 +148,6 @@ const FrameScreen = ({ navigation }: any) => {
     updateField("isDefault", true, item?.id);
 
     getFrameData();
-    console.log("selectedItem", selectedItem);
   };
   const renderItem = ({ item }: any) => {
     return (
@@ -235,7 +242,7 @@ const FrameScreen = ({ navigation }: any) => {
                 fontSize: perfectSize(9),
                 color: color.WHITE,
               }}
-              disabled={item?.data?.isDefault}
+              disabled={item?.isDefault}
             />
           </Block>
         </Block>
