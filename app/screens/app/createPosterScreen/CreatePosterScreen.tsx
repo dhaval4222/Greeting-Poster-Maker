@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  ImageBackground,
+} from "react-native";
 import { responsiveScale } from "../../../styles/mixins";
 import { color } from "../../../config/color";
 import Text from "../../../components/utilities/Text";
@@ -11,6 +17,7 @@ import PosterLogoPosition from "../../../components/createPoster/PosterLogoPosit
 import PosterFont from "../../../components/createPoster/PosterFont";
 import PosterDetails from "../../../components/createPoster/PosterDetails";
 import { useSelector } from "react-redux";
+import ViewShot from "react-native-view-shot";
 
 interface Option {
   id: number;
@@ -32,44 +39,218 @@ const CreatePosterScreen = ({ route }: any) => {
   const data = {
     theme: [
       {
-        id: 1,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-left",
+        text1: {
+          bottom: 60,
+          left: "10%",
+        },
+        text2: {
+          bottom: 50,
+          left: "30%",
+          alignSelf: "center",
+        },
+        text3: {
+          bottom: 35,
+          left: "25%",
+        },
+        text4: {
+          bottom: 50,
+          left: "60%",
+        },
+        text5: {
+          bottom: 35,
+          left: "55%",
+        },
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme1.png"),
       },
       {
-        id: 2,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-center",
+        text1: {
+          top: 10,
+          left: 10,
+        },
+        text2: {
+          top: 15,
+          alignSelf: "center",
+        },
+        text3: {
+          bottom: 35,
+          alignSelf: "center",
+        },
+        text4: {
+          top: 35,
+          right: 10,
+        },
+        text5: {
+          top: 10,
+          left: 90,
+        },
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme2.png"),
       },
       {
-        id: 3,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-right",
+        text1: {
+          bottom: 60,
+          left: "10%",
+        },
+        text2: {
+          top: 15,
+          right: "5%",
+        },
+        text3: {
+          bottom: 35,
+          alignSelf: "center",
+        },
+        text4: {
+          top: 45,
+          right: "5%",
+        },
+        text5: {},
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme3.png"),
       },
       {
-        id: 4,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-center",
+        text1: {
+          bottom: 60,
+          left: "10%",
+        },
+        text2: {
+          bottom: 65,
+          left: "50%",
+        },
+        text3: {
+          bottom: 60,
+          left: "30%",
+        },
+        text4: {
+          bottom: 35,
+          left: "50%",
+        },
+        text5: {},
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme4.png"),
       },
       {
-        id: 5,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-center",
+        text1: {
+          bottom: 35,
+          left: "5%",
+        },
+        text2: {
+          bottom: 25,
+          right: "2%",
+        },
+        text3: {
+          bottom: 60,
+          left: "30%",
+        },
+        text4: {
+          bottom: 35,
+          left: "50%",
+        },
+        text5: {
+          bottom: 35,
+          left: "50%",
+        },
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme4.png"),
       },
       {
-        id: 6,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-right",
+        text1: {
+          bottom: 65,
+          left: "5%",
+        },
+        text2: {
+          bottom: 25,
+          alignSelf: "flex-end",
+          right: "5%",
+        },
+        text3: {
+          bottom: 60,
+          left: "30%",
+        },
+        text4: {
+          bottom: 35,
+          left: "50%",
+        },
+        text5: {
+          bottom: 35,
+          left: "5%",
+        },
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme6.png"),
       },
       {
-        id: 7,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-right",
+        text1: {
+          bottom: 65,
+          right: "5%",
+        },
+        text2: {
+          bottom: 55,
+          left: "5%",
+        },
+        text3: {
+          bottom: 35,
+          alignSelf: "center",
+        },
+        text4: {
+          bottom: 55,
+          alignSelf: "flex-end",
+          right: "2%",
+        },
+        text5: {
+          bottom: 65,
+          alignSelf: "center",
+        },
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme7.png"),
       },
       {
-        id: 8,
-        image: require("../../../assets/appImages/ThemePoster.png"),
-        position: "Top-center",
+        text1: {
+          bottom: 65,
+          right: "5%",
+        },
+        text2: {
+          bottom: 55,
+          left: "5%",
+        },
+        text3: {
+          bottom: 35,
+          alignSelf: "center",
+        },
+        text4: {
+          bottom: 55,
+          alignSelf: "flex-end",
+          right: "2%",
+        },
+        text5: {
+          bottom: 35,
+          alignSelf: "center",
+        },
+        logoimage: {
+          top: 20,
+          left: 20,
+        },
+        image: require("../../../assets/appImages/Theme8.png"),
       },
     ],
     background: [
@@ -185,46 +366,45 @@ const CreatePosterScreen = ({ route }: any) => {
   const [currentData, setCurrentData] = useState(data.theme);
   const [selectedImage, setSelectedImage] = useState();
   const [selectedBorderStyle, setSelectedBorderStyle] = useState("none");
+  const [selected, setSelected] = useState(0);
+  console.log("selected---->", selected);
 
   const frameData = useSelector((state: any) => state.auth?.frameData ?? "");
   const defaultData = frameData.filter((item: any) => item?.isDefault === true);
   console.log("frameData----->", defaultData);
+  const viewShotRef = useRef();
 
   const flatListRef = useRef<FlatList<Option>>(null);
-
-  useEffect(() => {
-    switch (selectedOption.title) {
-      case "Theme":
-        setCurrentData(data.theme);
-        break;
-      case "Background":
-        setCurrentData(data.background);
-        break;
-      case "Graphics":
-        setCurrentData(data.graphics);
-        break;
-      case "Logo-Position":
-        setCurrentData(data.logoPosition);
-        break;
-      case "Font":
-        setCurrentData([]);
-        break;
-      case "Outline":
-        setCurrentData(data.outline);
-        break;
-      case "Details":
-        setCurrentData(data.details);
-        break;
-      default:
-        setCurrentData([]);
-        break;
-    }
-  }, [selectedOption]);
-
-  useEffect(() => {
-    // setSelectedGraphics(null);
-    setSelectedBackground(data.background[0]);
-  }, [selectedOption]);
+  console.log("data.theme---->", data.theme);
+  console.log("selectedOption.title", selectedOption.title),
+    useEffect(() => {
+      switch (selectedOption.title) {
+        case "Theme":
+          // setCurrentData(data.theme);
+          break;
+        case "Background":
+          setCurrentData(data.background);
+          break;
+        case "Graphics":
+          setCurrentData(data.graphics);
+          break;
+        case "Logo-Position":
+          setCurrentData(data.logoPosition);
+          break;
+        case "Font":
+          setCurrentData([]);
+          break;
+        case "Outline":
+          setCurrentData(data.outline);
+          break;
+        case "Details":
+          setCurrentData(data.details);
+          break;
+        default:
+          setCurrentData([]);
+          break;
+      }
+    }, [selectedOption]);
 
   const handlePosterSelect = (item: any) => {
     setSelectedPoster(item);
@@ -289,17 +469,24 @@ const CreatePosterScreen = ({ route }: any) => {
     </TouchableOpacity>
   );
 
-  const renderPosterImage = ({ item }: { item: any }) => (
-    <PosterTheme
-      festival={item}
-      isSelected={selectedPoster?.id === item.id}
-      onPress={() => handlePosterSelect(item)}
-      imageExtraStye={{
-        width: itemWidth,
-        height: itemHeight,
-        marginLeft: perfectSize(10),
-      }}
-    />
+  const renderPosterImage = ({ item, index }: { item: any; index: any }) => (
+    console.log("index------>", index),
+    (
+      <PosterTheme
+        festival={item}
+        selected={selected}
+        index={index}
+        isThemaData={true}
+        onPressImg={() => setSelected(index)}
+        isSelected={selectedPoster?.id === item.id}
+        onPress={() => handlePosterSelect(item)}
+        imageExtraStye={{
+          width: itemWidth,
+          height: itemHeight,
+          marginLeft: perfectSize(10),
+        }}
+      />
+    )
   );
 
   const renderBackgroundImage = ({ item }: { item: any }) => (
@@ -369,9 +556,9 @@ const CreatePosterScreen = ({ route }: any) => {
     />
   );
 
-  const renderItem = ({ item }: { item: any }) => {
+  const renderItem = ({ item, index }: { item: any; index: any }) => {
     if (selectedOption.title === "Theme") {
-      return renderPosterImage({ item });
+      return renderPosterImage({ item, index });
     } else if (selectedOption.title === "Background") {
       return renderBackgroundImage({ item });
     } else if (selectedOption.title === "Graphics") {
@@ -396,141 +583,6 @@ const CreatePosterScreen = ({ route }: any) => {
           style={styles.logoIcon}
           resizeMode="cover"
         />
-      </Block>
-      <Block
-        flex={false}
-        row
-        wrap
-        style={{ position: "absolute", bottom: 20, left: 20, width: "90%" }}
-        center
-        middle
-      >
-        {defaultData[0]?.companyName && (
-          <Block
-            flex={false}
-            margin={[
-              perfectSize(0),
-              perfectSize(10),
-              perfectSize(0),
-              perfectSize(0),
-            ]}
-            row
-            center
-          >
-            <Block flex={false} style={styles.iconContainer} center middle>
-              <Image
-                source={require("../../../assets/appImages/UserIcon.png")}
-                style={[styles.icon]}
-                resizeMode="contain"
-              />
-            </Block>
-            <Text regular small color={color.DARK_GREY}>
-              {defaultData[0].companyName}
-            </Text>
-          </Block>
-        )}
-
-        {defaultData[0]?.contactNumber && (
-          <Block
-            flex={false}
-            row
-            center
-            margin={[
-              perfectSize(0),
-              perfectSize(10),
-              perfectSize(10),
-              perfectSize(0),
-            ]}
-          >
-            <Block flex={false} style={styles.iconContainer} center middle>
-              <Image
-                source={require("../../../assets/appImages/MobileIcon.png")}
-                style={[styles.icon]}
-                resizeMode="contain"
-              />
-            </Block>
-            <Text regular small color={color.DARK_GREY}>
-              {defaultData[0].contactNumber}
-            </Text>
-          </Block>
-        )}
-
-        {defaultData[0]?.email && (
-          <Block
-            flex={false}
-            margin={[
-              perfectSize(0),
-              perfectSize(10),
-              perfectSize(10),
-              perfectSize(0),
-            ]}
-            row
-            center
-          >
-            <Block flex={false} style={styles.iconContainer} center middle>
-              <Image
-                source={require("../../../assets/appImages/EmailIcon.png")}
-                style={[styles.icon]}
-                resizeMode="contain"
-              />
-            </Block>
-            <Text regular small color={color.DARK_GREY}>
-              {defaultData[0].email}
-            </Text>
-          </Block>
-        )}
-
-        {defaultData[0]?.address && (
-          <Block
-            flex={false}
-            margin={[
-              perfectSize(0),
-              perfectSize(10),
-              perfectSize(0),
-              perfectSize(0),
-            ]}
-            row
-            center
-          >
-            <Block flex={false} style={styles.iconContainer} center middle>
-              <Image
-                source={require("../../../assets/appImages/AddressIcon.png")}
-                style={[styles.icon]}
-                resizeMode="contain"
-                tintColor={color.BLUE}
-              />
-            </Block>
-            <Text regular small color={color.DARK_GREY}>
-              
-            </Text>
-          </Block>
-        )}
-
-        {defaultData[0]?.websiteUrl && (
-          <Block
-            flex={false}
-            margin={[
-              perfectSize(0),
-              perfectSize(10),
-              perfectSize(0),
-              perfectSize(0),
-            ]}
-            row
-            center
-          >
-            <Block flex={false} style={styles.iconContainer} center middle>
-              <Image
-                source={require("../../../assets/appImages/WebsiteIcon.png")}
-                style={[styles.icon]}
-                resizeMode="contain"
-                tintColor={color.BLUE}
-              />
-            </Block>
-            <Text regular small color={color.DARK_GREY}>
-              {defaultData[0].websiteUrl}
-            </Text>
-          </Block>
-        )}
       </Block>
     </>
   );
@@ -557,7 +609,7 @@ const CreatePosterScreen = ({ route }: any) => {
   const itemWidth =
     (deviceWidth - (numColumns + 1) * perfectSize(10)) / numColumns;
   const itemHeight = perfectSize(81);
-
+  console.log("currentData---->", currentData);
   return (
     <Block flex={1} style={styles.container}>
       <CustomHeader
@@ -591,37 +643,205 @@ const CreatePosterScreen = ({ route }: any) => {
           style={styles.imageContainer}
         >
           <Block style={styles.image}>
-            <Image
-              // source={
-              //   selectedOption.title === "Graphics"
-              //     ? null
-              //     : selectedOption.title === "Background"
-              //     ? selectedBackground.image
-              //     : selectedImage
-              // }
-              source={
-                selectedOption.title === "Background"
-                  ? selectedBackground.image
-                  : selectedOption.title === "Theme"
-                  ? selectedPoster.image
-                  : // : selectedOption.title === "Graphics"
-                    // ? selectedGraphics?.image
-                    null // Handle the case where none of the conditions match
-              }
-              style={[styles.image]}
-            />
-            {console.log(
-              "selectedGraphics",
-              selectedGraphics,
-              selectedOption.title === "Theme"
-            )}
-            {selectedOption.title === "Theme" ||
+            <ViewShot ref={viewShotRef} options={{ format: "jpg", quality: 1 }}>
+              <ImageBackground
+                source={
+                  selectedOption.title === "Background"
+                    ? selectedBackground.image
+                    : require("../../../assets/appImages/BackgroundImage3.png")
+                }
+                resizeMode="cover"
+                style={styles.bgImage}
+              >
+                <Image
+                  source={
+                    selectedOption.title === "Graphics"
+                      ? selectedGraphics?.image
+                      : require("../../../assets/appImages/GraphicsImg1.png")
+                  }
+                  resizeMode="cover"
+                  style={[styles.logo1]}
+                />
+                {selected !== 1 &&
+                  selected !== 2 &&
+                  selected !== 3 &&
+                  selected !== 6 &&
+                  selected !== 7 &&
+                  defaultData[0]?.companyName && (
+                    <Block
+                      flex={false}
+                      margin={[
+                        perfectSize(0),
+                        perfectSize(10),
+                        perfectSize(0),
+                        perfectSize(0),
+                      ]}
+                      row
+                      center
+                      style={[styles.text, data.theme[selected].text1]}
+                    >
+                      <Block
+                        flex={false}
+                        style={styles.iconContainer}
+                        center
+                        middle
+                      >
+                        <Image
+                          source={require("../../../assets/appImages/UserIcon.png")}
+                          style={[styles.icon]}
+                          resizeMode="contain"
+                        />
+                      </Block>
+                      <Text regular small color={color.DARK_GREY}>
+                        {defaultData[0].companyName}
+                      </Text>
+                    </Block>
+                  )}
+
+                {selected !== 7 && defaultData[0]?.contactNumber && (
+                  <Block
+                    flex={false}
+                    row
+                    center
+                    margin={[
+                      perfectSize(0),
+                      perfectSize(10),
+                      perfectSize(10),
+                      perfectSize(0),
+                    ]}
+                    style={[styles.text, data.theme[selected].text2]}
+                  >
+                    <Block
+                      flex={false}
+                      style={styles.iconContainer}
+                      center
+                      middle
+                    >
+                      <Image
+                        source={require("../../../assets/appImages/MobileIcon.png")}
+                        style={[styles.icon]}
+                        resizeMode="contain"
+                      />
+                    </Block>
+                    <Text regular small color={color.DARK_GREY}>
+                      {defaultData[0].contactNumber}
+                    </Text>
+                  </Block>
+                )}
+
+                {selected !== 1 &&
+                  selected !== 4 &&
+                  selected !== 5 &&
+                  selected !== 7 &&
+                  defaultData[0]?.email && (
+                    <Block
+                      flex={false}
+                      margin={[
+                        perfectSize(0),
+                        perfectSize(10),
+                        perfectSize(10),
+                        perfectSize(0),
+                      ]}
+                      row
+                      center
+                      style={[styles.text, data.theme[selected].text4]}
+                    >
+                      <Block
+                        flex={false}
+                        style={styles.iconContainer}
+                        center
+                        middle
+                      >
+                        <Image
+                          source={require("../../../assets/appImages/EmailIcon.png")}
+                          style={[styles.icon]}
+                          resizeMode="contain"
+                        />
+                      </Block>
+                      <Text regular small color={color.DARK_GREY}>
+                        {defaultData[0].email}
+                      </Text>
+                    </Block>
+                  )}
+
+                {selected !== 4 &&
+                  selected !== 5 &&
+                  selected !== 7 &&
+                  defaultData[0]?.address && (
+                    <Block
+                      flex={false}
+                      margin={[
+                        perfectSize(0),
+                        perfectSize(10),
+                        perfectSize(0),
+                        perfectSize(0),
+                      ]}
+                      row
+                      center
+                      style={[styles.text, data.theme[selected].text3]}
+                    >
+                      <Block
+                        flex={false}
+                        style={styles.iconContainer}
+                        center
+                        middle
+                      >
+                        <Image
+                          source={require("../../../assets/appImages/AddressIcon.png")}
+                          style={[styles.icon]}
+                          resizeMode="contain"
+                          tintColor={color.BLUE}
+                        />
+                      </Block>
+                      <Text regular small color={color.DARK_GREY}>
+                        {defaultData[0]?.address}
+                      </Text>
+                    </Block>
+                  )}
+                {selected !== 1 &&
+                  selected !== 2 &&
+                  selected !== 3 &&
+                  defaultData[0]?.websiteUrl && (
+                    <Block
+                      flex={false}
+                      margin={[
+                        perfectSize(0),
+                        perfectSize(10),
+                        perfectSize(0),
+                        perfectSize(0),
+                      ]}
+                      row
+                      center
+                      style={[styles.text, data.theme[selected].text5]}
+                    >
+                      <Block
+                        flex={false}
+                        style={styles.iconContainer}
+                        center
+                        middle
+                      >
+                        <Image
+                          source={require("../../../assets/appImages/WebsiteIcon.png")}
+                          style={[styles.icon]}
+                          resizeMode="contain"
+                          tintColor={color.BLUE}
+                        />
+                      </Block>
+                      <Text regular small color={color.DARK_GREY}>
+                        {defaultData[0].websiteUrl}
+                      </Text>
+                    </Block>
+                  )}
+              </ImageBackground>
+            </ViewShot>
+
+            {/* {selectedOption.title === "Theme" ||
               (selectedGraphics && (
                 <Image
                   source={selectedGraphics.image}
                   style={styles.graphicsImageStyle}
                 />
-              ))}
+              ))} */}
           </Block>
           {selectedBorderStyle !== "none" && (
             <Block
@@ -664,7 +884,7 @@ const CreatePosterScreen = ({ route }: any) => {
                 data={currentData}
                 showsVerticalScrollIndicator={false}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item?.id?.toString()}
                 numColumns={4}
               />
             ) : (
@@ -761,6 +981,37 @@ const styles = StyleSheet.create({
   icon: {
     width: perfectSize(10),
     height: perfectSize(10),
+  },
+
+  bgImage: {
+    width: "100%",
+    aspectRatio: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image1: {
+    width: 40,
+    height: 60,
+    position: "absolute",
+    top: 10,
+    left: 10,
+  },
+  logo1: {
+    width: "65%",
+    height: "70%",
+    alignSelf: "center",
+  },
+  text: {
+    color: "black",
+    fontSize: 18,
+    fontWeight: "500",
+    position: "absolute",
+  },
+  capturedImage: {
+    height: 200,
+    width: "100%",
+    marginBottom: 20,
+    borderRadius: 10,
   },
 });
 
